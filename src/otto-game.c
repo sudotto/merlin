@@ -75,6 +75,7 @@ Anim new_anim(SDL_Renderer* rend, char* filename, int framecount, int row, int w
 	anim.frames = malloc(sizeof(Img) * framecount);
 	anim.frame = 0;
 	anim.framecount = framecount;
+	anim.done = false;
 
 	for(int x = 0; x < framecount; x++){
 		anim.frames[x] = new_cropped_img(rend, filename, x * w, row * h, w, h);
@@ -87,10 +88,8 @@ void render_anim(SDL_Renderer* rend, Anim* anim, int x, int y, int w, int h, flo
 	if(anim->frame >= anim->framecount){
 		anim->frame = 0;
 	}
-	Img test = new_img(rend, "assets/frank/idle.png");
 	int frame = (int)floor(anim->frame);
-	//printf("%i\n", frame);
-	render_img(rend, &anim->frames[frame], x, y, w, h);
+	render_img(rend, &anim->frames[(int)floor(anim->frame)], x, y, w, h);
 }
 
 void del_anim(Anim* anim){

@@ -15,11 +15,12 @@ typedef struct {
 	int x_vel;
 	int y_vel;
 	int spd;
+	float atk_cooldown;
 } Player;
 
-Player new_player(SDL_Renderer* rend, char* name, int spd);
+Player new_player(SDL_Renderer* rend, char* name, SDL_Color color, int spd);
 void control_player(Player* player, const bool* keystates);
-void move_player(Player* player);
+void update_player(Player* player);
 void render_player(SDL_Renderer* rend, Player* player);
 
 #endif

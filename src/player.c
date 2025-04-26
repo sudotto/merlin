@@ -12,7 +12,7 @@
 
 #include "player.h"
 
-Player new_player(SDL_Renderer* rend, char* name, int spd){
+Player new_player(SDL_Renderer* rend, char* name, SDL_Color color, int spd){
 	Player player;
 	player.name = name;
 	player.x = 10;
@@ -22,10 +22,10 @@ Player new_player(SDL_Renderer* rend, char* name, int spd){
 	player.x_vel = 0;
 	player.y_vel = 0;
 	player.spd = 5;
+	player.atk_cooldown = 0;
 
 	SDL_Color target = {255, 255, 255};
-	SDL_Color replace = {173, 144, 13};
-	player.sprite = new_recolored_img(rend, "assets/player/sprite.png", target, replace);
+	player.sprite = new_recolored_img(rend, "assets/player/sprite.png", target, color);
 
 	return player;
 }
@@ -43,10 +43,19 @@ void control_player(Player* player, const bool* keystates){
 	if(keystates[SDL_SCANCODE_D]){
 		player->x_vel = player->spd;
 	}
-	move_player(player);
+	if(keystates[SDL_SCANCODE_SPACE]){
+		if(player->atk_cooldown <= 0){
+			printf("you attacked\n");
+			player->atk_cooldown = 1;
+		}
+	}
 }
 
-void move_player(Player* player){
+void update_player(Player* player){
+	if(player->atk_cooldown > 0){
+		player->atk_cooldown -= 1.0f / 60;
+	}
+
 	player->y += player->y_vel;
 	if(player->y_vel < 0){
 		player->y_vel += 1;
@@ -68,4 +77,8 @@ void move_player(Player* player){
 
 void render_player(SDL_Renderer* rend, Player* player){
 	render_img(rend, &player->sprite, player->x, player->y, player->w, player->h);
+	int scaled = player->atk_cooldown * (32 / 1);
+	SDL_FRect rect = {player->x, player->y + player->w + 2, scaled, 10};
+	SDL_SetRenderDrawColor(rend, 255, 255, 255, 255);
+	SDL_RenderFillRect(rend, &rect);
 }

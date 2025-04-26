@@ -11,7 +11,8 @@
 
 int main(int argc, char* argv[]){
 	Game game = new_game("X-Caliber", 600, 600);
-	Player player = new_player(game.rend, "charlie", 5);
+	SDL_Color color = {255, 0, 255};
+	Player player = new_player(game.rend, "charlie", color, 5);
 	while(game.running){
 		game.frame_start = SDL_GetTicks();
 		clear_game(&game, 128, 128, 128);
@@ -23,6 +24,7 @@ int main(int argc, char* argv[]){
 			}
 		}
 		control_player(&player, game.keystates);
+		update_player(&player);
 		render_player(game.rend, &player);
 		render_game_cursor(&game, 32, 32);
 		update_game(&game);
