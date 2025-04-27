@@ -75,7 +75,6 @@ Anim new_anim(SDL_Renderer* rend, char* filename, int framecount, int row, int w
 	anim.frames = malloc(sizeof(Img) * framecount);
 	anim.frame = 0;
 	anim.framecount = framecount;
-	anim.done = false;
 
 	for(int x = 0; x < framecount; x++){
 		anim.frames[x] = new_cropped_img(rend, filename, x * w, row * h, w, h);
