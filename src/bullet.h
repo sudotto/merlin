@@ -9,7 +9,11 @@
 
 #include "otto-game.h"
 
+// BULLET
+
 typedef struct {
+	bool init;
+	int id;
 	Img sprite;
 	int x;
 	int y;
@@ -20,11 +24,20 @@ typedef struct {
 	int spd;
 	int age;
 	int lifespan;
-	bool dead;
+bool dead;
 } Bullet;
 
-Bullet new_bullet(SDL_Renderer* rend, int x, int y, char* filename, SDL_Color color, int spd);
-void update_bullet(Bullet* bullet);
+Bullet new_bullet(SDL_Renderer* rend, Bullet* bullets, int x, int y, char* filename, SDL_Color color, int spd);
+void update_bullet(Bullet* bullet, Bullet* bullets);
 void render_bullet(SDL_Renderer* rend, Bullet* bullet);
+void kill_bullet(Bullet* bullet, Bullet* bullets);
+
+// BULLET LIST
+
+void push_bullet(Bullet* bullet, Bullet* bullets);
+void pop_bullet(Bullet* bullet, Bullet* bullets);
+void update_bullets(Bullet* bullets);
+void render_bullets(SDL_Renderer* rend, Bullet* bullets);
+void destroy_bullets(Bullet* bullets);
 
 #endif
