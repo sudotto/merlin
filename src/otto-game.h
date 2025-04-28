@@ -58,7 +58,7 @@ typedef struct {
 } Game;
 
 Game new_game(char* title, int w, int h);
-void cap_game_framerate(Uint8 fps, Uint32 frame_start);
+void cap_game_framerate(Game* game, Uint8 fps);
 bool get_game_events(Game* game);
 void render_game_cursor(Game* game, int w, int h);
 void clear_game(Game* game, Uint8 r, Uint8 g, Uint8 b);

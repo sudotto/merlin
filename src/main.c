@@ -14,16 +14,8 @@
 int main(int argc, char* argv[]){
 	Game game = new_game("X-Caliber", 600, 600);
 	SDL_Color color = {255, 255, 0};
-	Player player = new_player(game.rend, "charlie", color, 5);
+	Player player = new_player(&game, "charlie", color, 5);
 	Bullet* bullets = malloc(sizeof(Bullet) * 20);
-	SDL_Color color1 = {255, 0, 255};
-	new_bullet(game.rend, bullets, 10, 50, "assets/bullet/beam.png", color1, 10);
-	SDL_Color color2 = {0, 255, 255};
-	new_bullet(game.rend, bullets, 20, 50, "assets/bullet/beam.png", color2, 10);
-	SDL_Color color3 = {255, 255, 0};
-	new_bullet(game.rend, bullets, 30, 50, "assets/bullet/beam.png", color3, 10);
-	SDL_Color color4 = {255, 0, 0};
-	new_bullet(game.rend, bullets, 40, 50, "assets/bullet/ball.png", color4, 6);
 	while(game.running){
 		game.frame_start = SDL_GetTicks();
 		clear_game(&game, 128, 128, 128);
@@ -35,23 +27,23 @@ int main(int argc, char* argv[]){
 			}
 		}
 		if(game.keystates[SDL_SCANCODE_Q]){
-			new_bullet(game.rend, bullets, 40, 50, "assets/bullet/ball.png", color4, 6);
+			new_bullet(&game, bullets, 40, 50, "assets/bullet/ball.png", color, 6);
 		}
 		if(game.keystates[SDL_SCANCODE_P]){
 			print_bullets(bullets);
 		}
-		control_player(&player, game.keystates);
-		
+		control_player(&game, &player, bullets);
+
 		update_player(&player);
 		update_bullets(bullets);
 
-		render_player(game.rend, &player);
-		render_bullets(game.rend, bullets);
+		render_player(&game, &player);
+		render_bullets(&game, bullets);
 		
 		render_game_cursor(&game, 32, 32);
 		
 		update_game(&game);
-		cap_game_framerate(60, game.frame_start);
+		cap_game_framerate(&game, 60);
 	}
 	//destroy_bullets(bullets);
 	destroy_game(&game);

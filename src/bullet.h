@@ -27,9 +27,9 @@ typedef struct {
 bool dead;
 } Bullet;
 
-Bullet new_bullet(SDL_Renderer* rend, Bullet* bullets, int x, int y, char* filename, SDL_Color color, int spd);
+Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, char* filename, SDL_Color color, int spd);
 void update_bullet(Bullet* bullet, Bullet* bullets);
-void render_bullet(SDL_Renderer* rend, Bullet* bullet);
+void render_bullet(Game* game, Bullet* bullet);
 void kill_bullet(Bullet* bullet, Bullet* bullets);
 
 // BULLET LIST
@@ -37,7 +37,7 @@ void kill_bullet(Bullet* bullet, Bullet* bullets);
 void push_bullet(Bullet* bullet, Bullet* bullets);
 void pop_bullet(Bullet* bullet, Bullet* bullets);
 void update_bullets(Bullet* bullets);
-void render_bullets(SDL_Renderer* rend, Bullet* bullets);
+void render_bullets(Game* game, Bullet* bullets);
 void print_bullets(Bullet* bullets);
 void destroy_bullets(Bullet* bullets);
 

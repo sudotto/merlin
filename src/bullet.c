@@ -14,22 +14,22 @@
 
 // BULLET
 
-Bullet new_bullet(SDL_Renderer* rend, Bullet* bullets, int x, int y, char* filename, SDL_Color color, int spd){
+Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, char* filename, SDL_Color color, int spd){
 	Bullet bullet;
 	bullet.init = true;
 	bullet.x = x;
 	bullet.y = y;
 	bullet.w = 4 * 4;
 	bullet.h = 4 * 4;
-	bullet.x_vel = 1;
-	bullet.y_vel = 1;
-	bullet.spd = 5;
+	bullet.x_vel = spd;
+	bullet.y_vel = spd;
+	bullet.spd = spd;
 	bullet.age = 0;
-	bullet.lifespan = 2 * 60; // 20 seconds of life (60 frames per second)
+	bullet.lifespan = 10 * 60; // 2 seconds of life (60 frames per second)
 	bullet.dead = false;
 
 	SDL_Color target = {0, 0, 0};
-	bullet.sprite = new_recolored_img(rend, filename, target, color);
+	bullet.sprite = new_recolored_img(game->rend, filename, target, color);
 
 	push_bullet(&bullet, bullets);
 
@@ -40,15 +40,13 @@ void update_bullet(Bullet* bullet, Bullet* bullets){
 	bullet->age++;
 	if(bullet->age >= bullet->lifespan){
 		pop_bullet(bullet, bullets);
-
-		//kill_bullet(bullet, bullets);
 	}
 	bullet->x += bullet->x_vel;
 	bullet->y += bullet->y_vel;
 }
 
-void render_bullet(SDL_Renderer* rend, Bullet* bullet){
-	render_img(rend, &bullet->sprite, bullet->x, bullet->y, bullet->w, bullet->h);
+void render_bullet(Game* game, Bullet* bullet){
+	render_img(game->rend, &bullet->sprite, bullet->x, bullet->y, bullet->w, bullet->h);
 }
 
 void kill_bullet(Bullet* bullet, Bullet* bullets){
@@ -87,12 +85,13 @@ void update_bullets(Bullet* bullets){
 	}
 }
 
-void render_bullets(SDL_Renderer* rend, Bullet* bullets){
+void render_bullets(Game* game, Bullet* bullets){
 	for(int i = 0; i < 20; i++){
 		if(!bullets[i].init){
 			break;
 		} else {
-			render_bullet(rend, &bullets[i]);
+			render_bullet(game, &bullets[i]);
+
 		}
 	}
 }

@@ -120,8 +120,8 @@ Game new_game(char* title, int w, int h){
 	return game;
 }
 
-void cap_game_framerate(Uint8 fps, Uint32 frame_start){
-	Uint32 frame_time = SDL_GetTicks() - frame_start;
+void cap_game_framerate(Game* game, Uint8 fps){
+	Uint32 frame_time = SDL_GetTicks() - game->frame_start;
 	if(frame_time < 1000/fps){
 		SDL_Delay(1000/fps - frame_time);
 	}
