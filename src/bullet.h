@@ -38,6 +38,7 @@ void push_bullet(Bullet* bullet, Bullet* bullets);
 void pop_bullet(Bullet* bullet, Bullet* bullets);
 void update_bullets(Bullet* bullets);
 void render_bullets(SDL_Renderer* rend, Bullet* bullets);
+void print_bullets(Bullet* bullets);
 void destroy_bullets(Bullet* bullets);
 
 #endif

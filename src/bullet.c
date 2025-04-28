@@ -68,11 +68,12 @@ void push_bullet(Bullet* bullet, Bullet* bullets){
 }
 
 void pop_bullet(Bullet* bullet, Bullet* bullets){
-	for(int i = bullet->id; i < 20 - bullet->id; i++){
+	for(int i = bullet->id; i < 20; i++){
 		if(!bullets[i].init){
 			break;
 		}
 		bullets[i] = bullets[i + 1];
+		bullets[i].id = i;
 	}
 }
 
@@ -99,7 +100,11 @@ void render_bullets(SDL_Renderer* rend, Bullet* bullets){
 void print_bullets(Bullet* bullets){
 	printf("-= BULLET LIST =-\n");
 	for(int i = 0; i < 20; i++){
-		printf("\n");
+		if(bullets[i].init == true){
+			printf("[%i]. -> INIT\n", i);
+		} else {
+			printf("[%i]. -> EMPTY\n", i);
+		}
 	}
 }
 
