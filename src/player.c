@@ -44,12 +44,19 @@ void control_player(Game* game, Player* player, Bullet* bullets){
 	if(game->keystates[SDL_SCANCODE_D]){
 		player->x_vel = player->spd;
 	}
-	if(game->keystates[SDL_SCANCODE_SPACE]){
+	if(game->mousestates & SDL_BUTTON_MASK(SDL_BUTTON_LEFT)){
 		if(player->atk_cooldown <= 0){
 			printf("you attacked\n");
 			player->atk_cooldown = player->atk_cooldown_time;
+			int spd = 10;
+			int dx = game->mouse_x - player->x;
+			int dy = game->mouse_y - player->y;
+			float hyp = sqrt(dy * dy + dx * dx);
+			float scale = 10 / hyp;
+			float x_vel = dx * scale;
+			float y_vel = dy * scale;
 			SDL_Color projectile_color = {255, 255, 0};
-			new_bullet(game, bullets, player->x, player->y, "assets/bullet/ball.png", projectile_color, 10);
+			new_bullet(game, bullets, player->x, player->y, "assets/bullet/ball.png", projectile_color, x_vel, y_vel, 10);
 		}
 	}
 }

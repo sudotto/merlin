@@ -26,9 +26,6 @@ int main(int argc, char* argv[]){
 					break;
 			}
 		}
-		if(game.keystates[SDL_SCANCODE_Q]){
-			new_bullet(&game, bullets, 40, 50, "assets/bullet/ball.png", color, 6);
-		}
 		if(game.keystates[SDL_SCANCODE_P]){
 			print_bullets(bullets);
 		}

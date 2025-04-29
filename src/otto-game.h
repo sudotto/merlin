@@ -49,6 +49,7 @@ typedef struct {
 	Img icon;
 	Img cursor;
 	const bool* keystates;
+	SDL_MouseButtonFlags mousestates;
 	float mouse_x;
 	float mouse_y;
 	float old_mouse_x;

@@ -111,8 +111,7 @@ Game new_game(char* title, int w, int h){
 	SDL_SetWindowIcon(game.win, game.icon.surf);
 
 	game.keystates = SDL_GetKeyboardState(NULL);
-	game.mouse_x;
-	game.mouse_y;
+	game.mousestates = SDL_GetMouseState(&game.mouse_x, &game.mouse_y);
 	SDL_HideCursor();
 
 	game.frame_start;
@@ -129,7 +128,7 @@ void cap_game_framerate(Game* game, Uint8 fps){
 
 bool get_game_events(Game* game){
 	game->keystates = SDL_GetKeyboardState(NULL);
-	SDL_GetMouseState(&game->mouse_x, &game->mouse_y);
+	game->mousestates = SDL_GetMouseState(&game->mouse_x, &game->mouse_y);
 	if(SDL_PollEvent(&game->event)){
 		return true;
 	}

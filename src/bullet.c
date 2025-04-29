@@ -14,15 +14,15 @@
 
 // BULLET
 
-Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, char* filename, SDL_Color color, int spd){
+Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, char* filename, SDL_Color color, int x_vel, int y_vel, int spd){
 	Bullet bullet;
 	bullet.init = true;
 	bullet.x = x;
 	bullet.y = y;
 	bullet.w = 4 * 4;
 	bullet.h = 4 * 4;
-	bullet.x_vel = spd;
-	bullet.y_vel = spd;
+	bullet.x_vel = x_vel;
+	bullet.y_vel = y_vel;
 	bullet.spd = spd;
 	bullet.age = 0;
 	bullet.lifespan = 10 * 60; // 2 seconds of life (60 frames per second)

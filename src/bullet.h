@@ -27,7 +27,7 @@ typedef struct {
 bool dead;
 } Bullet;
 
-Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, char* filename, SDL_Color color, int spd);
+Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, char* filename, SDL_Color color, int x_vel, int y_vel, int spd);
 void update_bullet(Bullet* bullet, Bullet* bullets);
 void render_bullet(Game* game, Bullet* bullet);
 void kill_bullet(Bullet* bullet, Bullet* bullets);
