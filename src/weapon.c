@@ -49,19 +49,14 @@ Weapon new_weapon(Game* game, char* name, char* filename, int w, int h, SDL_Colo
 void use_weapon(Game* game, Weapon* weapon, Bullet* bullets){
 	if(weapon->atk_cooldown <= 0){
 		weapon->atk_cooldown = weapon->atk_cooldown_time;
-		float x_vel, y_vel;
-		scaled_hyp(&x_vel, &y_vel, game->mouse_x, game->mouse_y, weapon->x, weapon->y, weapon->bullet_spd);
+		//float x_vel, y_vel;
+		//scaled_hyp(&x_vel, &y_vel, game->mouse_x, game->mouse_y, weapon->x, weapon->y, weapon->bullet_spd);
+		int dx = weapon->x - game->mouse_x;
+		int dy = weapon->y - game->mouse_y;
+		float hyp = sqrt(dx*dx + dy*dy);
+		float angle = atan2(dy, dx) * (180.0 / M_PI);
 		for(int i = 0; i < weapon->bullet_count; i++){
-			new_bullet(
-				game, bullets,
-				weapon->x, weapon->y,
-				4, 4,
-				"assets/bullet/leaf.png",
-				weapon->bullet_color,
-				weapon->bullet_lifespan,
-				x_vel + i, y_vel + i,
-				weapon->bullet_spd
-			);
+			new_bullet(game, bullets, weapon->x, weapon->y, 4, 4, "assets/bullet/leaf.png", weapon->bullet_color, weapon->bullet_lifespan, weapon->bullet_spd, angle + (i * 2));
 		}
 	}
 }

@@ -29,6 +29,7 @@ typedef struct {
 	int h;
 	int x_vel;
 	int y_vel;
+	int angle;
 	int age;
 	int lifespan;
 	bool dead;
@@ -36,7 +37,7 @@ typedef struct {
 	int bounces;
 } Bullet;
 
-Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, int w, int h, char* filename, SDL_Color color, int lifespan, int x_vel, int y_vel, int spd);
+Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, int w, int h, char* filename, SDL_Color color, int lifespan, int spd, int angle);
 void update_bullet(Bullet* bullet, Bullet* bullets);
 void render_bullet(Game* game, Bullet* bullet);
 void kill_bullet(Bullet* bullet, Bullet* bullets);

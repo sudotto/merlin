@@ -14,19 +14,21 @@
 
 // BULLET
 
-Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, int w, int h, char* filename, SDL_Color color, int lifespan, int x_vel, int y_vel, int spd){
+Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, int w, int h, char* filename, SDL_Color color, int lifespan, int spd, int angle){
 	Bullet bullet;
 	bullet.init = true;
 	bullet.x = x;
 	bullet.y = y;
 	bullet.w = w * 4;
 	bullet.h = h * 4;
-	bullet.x_vel = x_vel;
-	bullet.y_vel = y_vel;
+	bullet.angle = angle;
 	bullet.spd = spd;
 	bullet.age = 0;
 	bullet.lifespan = lifespan * 60; // 2 seconds of life (60 frames per second)
 	bullet.dead = false;
+	float radians = angle * (M_PI / 180.0);
+	bullet.x_vel = spd * cos(radians);
+	bullet.y_vel = spd * sin(radians);
 
 	SDL_Color target = {0, 0, 0};
 	bullet.sprite = new_recolored_img(game->rend, filename, target, color);
@@ -41,8 +43,8 @@ void update_bullet(Bullet* bullet, Bullet* bullets){
 	if(bullet->age >= bullet->lifespan){
 		pop_bullet(bullet, bullets);
 	}
-	bullet->x += bullet->x_vel;
-	bullet->y += bullet->y_vel;
+	bullet->x -= bullet->x_vel;
+	bullet->y -= bullet->y_vel;
 }
 
 void render_bullet(Game* game, Bullet* bullet){
