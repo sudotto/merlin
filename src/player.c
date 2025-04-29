@@ -23,7 +23,7 @@ Player new_player(Game* game, char* name, SDL_Color color, int spd){
 	player.x_vel = 0;
 	player.y_vel = 0;
 	player.spd = 5;
-	player.weapon = new_weapon(game, "Twig", "assets/weapon/twig.png", color);
+	player.weapon = new_weapon(game, "Twig", "assets/weapon/twig.png",  8 * 4, 8 * 4, color);
 
 	SDL_Color target = {255, 255, 255};
 	player.sprite = new_recolored_img(game->rend, "assets/player/sprite.png", target, color);
@@ -58,11 +58,11 @@ void control_player(Game* game, Player* player, Bullet* bullets){
 			SDL_Color projectile_color = {0, 255, 0};
 			new_bullet(game, bullets, player->x, player->y, "assets/bullet/ball.png", projectile_color, x_vel, y_vel, spd);
 		}*/
-		use_weapon(game, &player->weapon, bullets, player->x, player->y);
+		use_weapon(game, &player->weapon, bullets);
 	}
 }
 
-void update_player(Player* player){
+void update_player(Game* game, Player* player){
 	player->y += player->y_vel;
 	if(player->y_vel < 0){
 		player->y_vel += 1;
@@ -80,10 +80,10 @@ void update_player(Player* player){
 	} else {
 		player->x_vel = 0;
 	}
-	update_weapon(&player->weapon);
+	update_weapon(game, &player->weapon, player->x, player->y);
 }
 
 void render_player(Game* game, Player* player){
 	render_img(game->rend, &player->sprite, player->x, player->y, player->w, player->h);
-	render_weapon(game, &player->weapon, player->x, player->y, player->w, player->h);
+	render_weapon(game, &player->weapon);
 }

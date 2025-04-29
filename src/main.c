@@ -31,7 +31,7 @@ int main(int argc, char* argv[]){
 		}
 		control_player(&game, &player, bullets);
 
-		update_player(&player);
+		update_player(&game, &player);
 		update_bullets(bullets);
 
 		render_player(&game, &player);
