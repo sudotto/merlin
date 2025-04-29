@@ -9,6 +9,7 @@
 
 #include "otto-game.h"
 #include "bullet.h"
+#include "weapon.h"
 
 #include "player.h"
 
@@ -22,8 +23,7 @@ Player new_player(Game* game, char* name, SDL_Color color, int spd){
 	player.x_vel = 0;
 	player.y_vel = 0;
 	player.spd = 5;
-	player.atk_cooldown = 0;
-	player.atk_cooldown_time = 0.5;
+	player.weapon = new_weapon(game, "Twig", "assets/weapon/twig.png", color);
 
 	SDL_Color target = {255, 255, 255};
 	player.sprite = new_recolored_img(game->rend, "assets/player/sprite.png", target, color);
@@ -45,27 +45,24 @@ void control_player(Game* game, Player* player, Bullet* bullets){
 		player->x_vel = player->spd;
 	}
 	if(game->mousestates & SDL_BUTTON_MASK(SDL_BUTTON_LEFT)){
-		if(player->atk_cooldown <= 0){
+		/*if(player->atk_cooldown <= 0){
 			printf("you attacked\n");
 			player->atk_cooldown = player->atk_cooldown_time;
-			int spd = 10;
+			int spd = 5;
 			int dx = game->mouse_x - player->x;
 			int dy = game->mouse_y - player->y;
 			float hyp = sqrt(dy * dy + dx * dx);
-			float scale = 10 / hyp;
+			float scale = spd / hyp;
 			float x_vel = dx * scale;
 			float y_vel = dy * scale;
-			SDL_Color projectile_color = {255, 255, 0};
-			new_bullet(game, bullets, player->x, player->y, "assets/bullet/ball.png", projectile_color, x_vel, y_vel, 10);
-		}
+			SDL_Color projectile_color = {0, 255, 0};
+			new_bullet(game, bullets, player->x, player->y, "assets/bullet/ball.png", projectile_color, x_vel, y_vel, spd);
+		}*/
+		use_weapon(game, &player->weapon, bullets, player->x, player->y);
 	}
 }
 
 void update_player(Player* player){
-	if(player->atk_cooldown > 0){
-		player->atk_cooldown -= 1.0f / 60;
-	}
-
 	player->y += player->y_vel;
 	if(player->y_vel < 0){
 		player->y_vel += 1;
@@ -83,12 +80,10 @@ void update_player(Player* player){
 	} else {
 		player->x_vel = 0;
 	}
+	update_weapon(&player->weapon);
 }
 
 void render_player(Game* game, Player* player){
 	render_img(game->rend, &player->sprite, player->x, player->y, player->w, player->h);
-	int scaled = player->atk_cooldown * (32 / player->atk_cooldown_time);
-	SDL_FRect rect = {player->x, player->y + player->w + 2, scaled, 10};
-	SDL_SetRenderDrawColor(game->rend, 255, 255, 255, 255);
-	SDL_RenderFillRect(game->rend, &rect);
+	render_weapon(game, &player->weapon, player->x, player->y, player->w, player->h);
 }

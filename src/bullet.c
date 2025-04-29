@@ -25,7 +25,7 @@ Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, char* filename, SDL
 	bullet.y_vel = y_vel;
 	bullet.spd = spd;
 	bullet.age = 0;
-	bullet.lifespan = 10 * 60; // 2 seconds of life (60 frames per second)
+	bullet.lifespan = 5 * 60; // 2 seconds of life (60 frames per second)
 	bullet.dead = false;
 
 	SDL_Color target = {0, 0, 0};
@@ -56,7 +56,7 @@ void kill_bullet(Bullet* bullet, Bullet* bullets){
 // BULLET LIST
 
 void push_bullet(Bullet* bullet, Bullet* bullets){
-	for(int i = 0; i < 20; i++){
+	for(int i = 0; i < MAX_BULLET; i++){
 		if(!bullets[i].init){
 			bullet->id = i;
 			bullets[i] = *bullet;
@@ -66,7 +66,7 @@ void push_bullet(Bullet* bullet, Bullet* bullets){
 }
 
 void pop_bullet(Bullet* bullet, Bullet* bullets){
-	for(int i = bullet->id; i < 20; i++){
+	for(int i = bullet->id; i < MAX_BULLET; i++){
 		if(!bullets[i].init){
 			break;
 		}
@@ -76,7 +76,7 @@ void pop_bullet(Bullet* bullet, Bullet* bullets){
 }
 
 void update_bullets(Bullet* bullets){
-	for(int i = 0; i < 20; i++){
+	for(int i = 0; i < MAX_BULLET; i++){
 		if(!bullets[i].init){
 			break;
 		} else {
@@ -86,7 +86,7 @@ void update_bullets(Bullet* bullets){
 }
 
 void render_bullets(Game* game, Bullet* bullets){
-	for(int i = 0; i < 20; i++){
+	for(int i = 0; i < MAX_BULLET; i++){
 		if(!bullets[i].init){
 			break;
 		} else {
@@ -98,7 +98,7 @@ void render_bullets(Game* game, Bullet* bullets){
 
 void print_bullets(Bullet* bullets){
 	printf("-= BULLET LIST =-\n");
-	for(int i = 0; i < 20; i++){
+	for(int i = 0; i < MAX_BULLET; i++){
 		if(bullets[i].init == true){
 			printf("[%i]. -> INIT\n", i);
 		} else {

@@ -9,6 +9,8 @@
 
 #include "otto-game.h"
 
+#define MAX_BULLET 5000
+
 // BULLET
 
 typedef struct {
@@ -21,10 +23,11 @@ typedef struct {
 	int h;
 	int x_vel;
 	int y_vel;
-	int spd;
 	int age;
 	int lifespan;
-bool dead;
+	bool dead;
+	int spd;
+	int bounces;
 } Bullet;
 
 Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, char* filename, SDL_Color color, int x_vel, int y_vel, int spd);

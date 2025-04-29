@@ -9,7 +9,7 @@
 
 #include "otto-game.h"
 #include "bullet.h"
-
+#include "weapon.h"
 
 typedef struct {
 	char* name;
@@ -21,8 +21,7 @@ typedef struct {
 	int x_vel;
 	int y_vel;
 	int spd;
-	float atk_cooldown;
-	float atk_cooldown_time;
+	Weapon weapon;
 } Player;
 
 Player new_player(Game* game, char* name, SDL_Color color, int spd);
