@@ -9,7 +9,7 @@
 
 #include "otto-game.h"
 
-#define MAX_BULLET 5000
+#define MAX_BULLET 256
 
 // BULLET TYPES
 
@@ -37,18 +37,22 @@ typedef struct {
 	int bounces;
 } Bullet;
 
-Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, int w, int h, char* filename, SDL_Color color, int lifespan, int spd, int angle);
+Bullet new_bullet(Game* game, int x, int y, int w, int h, char* filename, int lifespan, int spd, int angle);
 void update_bullet(Bullet* bullet, Bullet* bullets);
 void render_bullet(Game* game, Bullet* bullet);
 void kill_bullet(Bullet* bullet, Bullet* bullets);
 
 // BULLET LIST
 
-void push_bullet(Bullet* bullet, Bullet* bullets);
-void pop_bullet(Bullet* bullet, Bullet* bullets);
+void push_bullet(Bullet bullet, Bullet* bullets);
+void pop_bullet(Bullet bullet, Bullet* bullets);
 void update_bullets(Bullet* bullets);
 void render_bullets(Game* game, Bullet* bullets);
 void print_bullets(Bullet* bullets);
 void destroy_bullets(Bullet* bullets);
+
+// BULLET TYPES
+
+Bullet new_leaf_bullet(Game* game, int x, int y, int angle);
 
 #endif

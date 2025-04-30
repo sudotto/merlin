@@ -66,6 +66,19 @@ void render_img(SDL_Renderer* rend, Img *img, int x, int y, int w, int h){
 	}
 }
 
+void render_img_rotated(SDL_Renderer* rend, Img *img, int x, int y, int w, int h, int angle){
+	SDL_FRect dest;
+	dest.x = x;
+	dest.y = y;
+	dest.w = w;
+	dest.h = h;
+	if(img->cropped){
+		SDL_RenderTextureRotated(rend, img->tex, &img->crop, &dest, angle, NULL, SDL_FLIP_NONE);
+	} else {
+		SDL_RenderTextureRotated(rend, img->tex, NULL, &dest, angle, NULL, SDL_FLIP_NONE);
+	}
+}
+
 ///////////////////
 // ANIMATION
 ///////////////////

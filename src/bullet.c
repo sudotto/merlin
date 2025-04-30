@@ -14,7 +14,7 @@
 
 // BULLET
 
-Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, int w, int h, char* filename, SDL_Color color, int lifespan, int spd, int angle){
+Bullet new_bullet(Game* game, int x, int y, int w, int h, char* filename, int lifespan, int spd, int angle){
 	Bullet bullet;
 	bullet.init = true;
 	bullet.x = x;
@@ -24,16 +24,16 @@ Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, int w, int h, char*
 	bullet.angle = angle;
 	bullet.spd = spd;
 	bullet.age = 0;
-	bullet.lifespan = lifespan * 60; // 2 seconds of life (60 frames per second)
+	bullet.lifespan = lifespan * 60;
+	bullet.bounces;
 	bullet.dead = false;
 	float radians = angle * (M_PI / 180.0);
 	bullet.x_vel = spd * cos(radians);
 	bullet.y_vel = spd * sin(radians);
 
-	SDL_Color target = {0, 0, 0};
-	bullet.sprite = new_recolored_img(game->rend, filename, target, color);
+	bullet.sprite = new_img(game->rend, filename);
 
-	push_bullet(&bullet, bullets);
+	//push_bullet(&bullet, bullets);
 
 	return bullet;
 }
@@ -41,7 +41,19 @@ Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, int w, int h, char*
 void update_bullet(Bullet* bullet, Bullet* bullets){
 	bullet->age++;
 	if(bullet->age >= bullet->lifespan){
-		pop_bullet(bullet, bullets);
+		pop_bullet(*bullet, bullets);
+	}
+	if(bullet->x < 0){
+		bullet->x_vel = -bullet->x_vel;
+	}
+	if(bullet->y < 0){
+		bullet->y_vel = -bullet->y_vel;
+	}
+	if(bullet->x > 600){
+		bullet->x_vel = -bullet->x_vel;
+	}
+	if(bullet->y > 600){
+		bullet->y_vel = -bullet->y_vel;
 	}
 	bullet->x -= bullet->x_vel;
 	bullet->y -= bullet->y_vel;
@@ -51,24 +63,20 @@ void render_bullet(Game* game, Bullet* bullet){
 	render_img(game->rend, &bullet->sprite, bullet->x, bullet->y, bullet->w, bullet->h);
 }
 
-void kill_bullet(Bullet* bullet, Bullet* bullets){
-	pop_bullet(bullet, bullets);
-}
-
 // BULLET LIST
 
-void push_bullet(Bullet* bullet, Bullet* bullets){
+void push_bullet(Bullet bullet, Bullet* bullets){
 	for(int i = 0; i < MAX_BULLET; i++){
 		if(!bullets[i].init){
-			bullet->id = i;
-			bullets[i] = *bullet;
+			bullet.id = i;
+			bullets[i] = bullet;
 			break;
 		}
 	}
 }
 
-void pop_bullet(Bullet* bullet, Bullet* bullets){
-	for(int i = bullet->id; i < MAX_BULLET; i++){
+void pop_bullet(Bullet bullet, Bullet* bullets){
+	for(int i = bullet.id; i < MAX_BULLET; i++){
 		if(!bullets[i].init){
 			break;
 		}
@@ -93,7 +101,6 @@ void render_bullets(Game* game, Bullet* bullets){
 			break;
 		} else {
 			render_bullet(game, &bullets[i]);
-
 		}
 	}
 }
@@ -112,3 +119,10 @@ void print_bullets(Bullet* bullets){
 void destroy_bullets(Bullet* bullets){
 	free(bullets);
 }
+
+// BULLET TYPES
+
+Bullet new_leaf_bullet(Game* game, int x, int y, int angle){
+	return new_bullet(game, x, y, 4, 4, "assets/bullet/leaf.png", 1, 5, angle);
+}
+

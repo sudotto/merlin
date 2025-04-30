@@ -23,10 +23,11 @@ Player new_player(Game* game, char* name, SDL_Color color, int spd){
 	player.x_vel = 0;
 	player.y_vel = 0;
 	player.spd = 5;
-	player.weapon = new_weapon(game, "Twig", "assets/weapon/twig.png",  8 * 4, 8 * 4, color);
+	Weapon twig = new_twig_weapon(game);
+	player.weapon = twig; 
 
 	SDL_Color target = {255, 255, 255};
-	player.sprite = new_recolored_img(game->rend, "assets/player/sprite.png", target, color);
+	player.sprite = new_recolored_img(game->rend, "assets/player/plumber.png", target, color);
 
 	return player;
 }

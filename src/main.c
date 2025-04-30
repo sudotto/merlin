@@ -13,7 +13,7 @@
 
 int main(int argc, char* argv[]){
 	Game game = new_game("X-Caliber", 600, 600);
-	SDL_Color color = {255, 255, 0};
+	SDL_Color color = {255, 0, 0};
 	Player player = new_player(&game, "charlie", color, 5);
 	Bullet* bullets = malloc(sizeof(Bullet) * MAX_BULLET);
 	while(game.running){
