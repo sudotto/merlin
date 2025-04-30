@@ -27,6 +27,7 @@ Bullet new_bullet(Game* game, int x, int y, int w, int h, char* filename, int li
 	bullet.lifespan = lifespan * 60;
 	bullet.bounces;
 	bullet.dead = false;
+	bullet.angle = angle;
 	float radians = angle * (M_PI / 180.0);
 	bullet.x_vel = spd * cos(radians);
 	bullet.y_vel = spd * sin(radians);
@@ -60,7 +61,7 @@ void update_bullet(Bullet* bullet, Bullet* bullets){
 }
 
 void render_bullet(Game* game, Bullet* bullet){
-	render_img(game->rend, &bullet->sprite, bullet->x, bullet->y, bullet->w, bullet->h);
+	render_img_rotated(game->rend, &bullet->sprite, bullet->x, bullet->y, bullet->w, bullet->h, bullet->angle - 135);
 }
 
 // BULLET LIST
