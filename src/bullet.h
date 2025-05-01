@@ -54,5 +54,13 @@ void destroy_bullets(Bullet* bullets);
 // BULLET TYPES
 
 Bullet new_leaf_bullet(Game* game, int x, int y, int angle);
+Bullet new_plasma_bullet(Game* game, int x, int y, int angle);
+Bullet new_fireball_bullet(Game* game, int x, int y, int angle);
+Bullet new_missle_bullet(Game* game, int x, int y, int angle);
+Bullet new_sigil_bullet(Game* game, int x, int y, int angle);
+Bullet new_water_bullet(Game* game, int x, int y, int angle);
+Bullet new_blaze_bullet(Game* game, int x, int y, int angle);
+Bullet new_smite_bullet(Game* game, int x, int y, int angle);
+Bullet new_void_bullet(Game* game, int x, int y, int angle);
 
 #endif

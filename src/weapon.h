@@ -33,5 +33,13 @@ void render_weapon(Game* game, Weapon* weapon);
 // WEAPONS
 
 Weapon new_twig_weapon(Game* game);
+Weapon new_staff_weapon(Game* game);
+Weapon new_scepter_weapon(Game* game);
+Weapon new_wand_weapon(Game* game);
+Weapon new_ohnyalei_weapon(Game* game);
+Weapon new_trident_weapon(Game* game);
+Weapon new_blaze_weapon(Game* game);
+Weapon new_raph_weapon(Game* game);
+Weapon new_void_weapon(Game* game);
 
 #endif

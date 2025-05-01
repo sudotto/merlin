@@ -44,17 +44,13 @@ void update_bullet(Bullet* bullet, Bullet* bullets){
 	if(bullet->age >= bullet->lifespan){
 		pop_bullet(*bullet, bullets);
 	}
-	if(bullet->x < 0){
+	if(bullet->x < 0 || bullet->x > 600){
 		bullet->x_vel = -bullet->x_vel;
+		bullet->angle = -bullet->angle;
 	}
-	if(bullet->y < 0){
+	if(bullet->y < 0 || bullet->y > 600){
 		bullet->y_vel = -bullet->y_vel;
-	}
-	if(bullet->x > 600){
-		bullet->x_vel = -bullet->x_vel;
-	}
-	if(bullet->y > 600){
-		bullet->y_vel = -bullet->y_vel;
+		bullet->angle = -bullet->angle;
 	}
 	bullet->x -= bullet->x_vel;
 	bullet->y -= bullet->y_vel;
@@ -124,6 +120,41 @@ void destroy_bullets(Bullet* bullets){
 // BULLET TYPES
 
 Bullet new_leaf_bullet(Game* game, int x, int y, int angle){
-	return new_bullet(game, x, y, 4, 4, "assets/bullet/leaf.png", 1, 5, angle);
+	return new_bullet(game, x, y, 4, 4, "assets/bullet/magic/leaf.png", 1, 5, angle);
 }
 
+Bullet new_plasma_bullet(Game* game, int x, int y, int angle){
+	return new_bullet(game, x, y, 4, 4, "assets/bullet/magic/plasma.png", 2, 15, angle);
+}
+
+Bullet new_fireball_bullet(Game* game, int x, int y, int angle){
+	return new_bullet(game, x, y, 4, 4, "assets/bullet/magic/fireball.png", 2, 20, angle);
+}
+
+Bullet new_missle_bullet(Game* game, int x, int y, int angle){
+	return new_bullet(game, x, y, 4, 4, "assets/bullet/magic/missle.png", 2, 20, angle);
+}
+
+Bullet new_sigil_bullet(Game* game, int x, int y, int angle){
+	return new_bullet(game, x, y,bullet->x_vel = -bullet->x_vel; 		bullet->angle = -bullet->angle; 	} 	if(bullet->y < 0 || bullet->y > 600){ 		bullet->y_vel = -bullet->y_vel; 		bullet->angle = -bullet->angle; 	} 	bullet->x -= bullet->x_vel; 	bullet->y -= bullet->y_vel; }  void render_bullet(Game* game, Bullet* bullet){ 	render_img_rotated(game->rend, &bullet->sprite, bullet->x, bullet->y, bullet->w, bullet->h, bullet->angle - 135); } 8, 8, "assets/bullet/magic/sigil.png", 3, 10, angle);
+}
+
+Bullet new_water_bullet(Game* game, int x, int y, int angle){
+	return new_bullet(game, x, y, 8, 8, "assets/bullet/magic/water.png", 2, 20, angle);
+}
+
+Bullet new_blaze_bullet(Game* game, int x, int y, int angle){
+	return new_bullet(game, x, y, 8, 8, "assets/bullet/magic/blaze.png", 2, 20, angle);
+}
+
+Bullet new_smite_bullet(Game* game, int x, int y, int angle){
+	return new_bullet(game, x, y, 8, 8, "assets/bullet/magic/smite.png", 1, 30, angle);
+}
+
+Bullet new_void_bullet(Game* game, int x, int y, int angle){
+	return new_bullet(game, x, y, 8, 8, "assets/bullet/magic/void.png", 1, 15, angle);
+}
+
+// SPAWN BULLET
+
+//void spawn_bullet(bullet);

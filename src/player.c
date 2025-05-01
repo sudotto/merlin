@@ -23,7 +23,7 @@ Player new_player(Game* game, char* name, SDL_Color color, int spd){
 	player.x_vel = 0;
 	player.y_vel = 0;
 	player.spd = 5;
-	Weapon twig = new_twig_weapon(game);
+	Weapon twig = new_raph_weapon(game);
 	player.weapon = twig; 
 
 	SDL_Color target = {255, 255, 255};
@@ -46,19 +46,6 @@ void control_player(Game* game, Player* player, Bullet* bullets){
 		player->x_vel = player->spd;
 	}
 	if(game->mousestates & SDL_BUTTON_MASK(SDL_BUTTON_LEFT)){
-		/*if(player->atk_cooldown <= 0){
-			printf("you attacked\n");
-			player->atk_cooldown = player->atk_cooldown_time;
-			int spd = 5;
-			int dx = game->mouse_x - player->x;
-			int dy = game->mouse_y - player->y;
-			float hyp = sqrt(dy * dy + dx * dx);
-			float scale = spd / hyp;
-			float x_vel = dx * scale;
-			float y_vel = dy * scale;
-			SDL_Color projectile_color = {0, 255, 0};
-			new_bullet(game, bullets, player->x, player->y, "assets/bullet/ball.png", projectile_color, x_vel, y_vel, spd);
-		}*/
 		use_weapon(game, &player->weapon, bullets);
 	}
 }

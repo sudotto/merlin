@@ -47,18 +47,12 @@ Weapon new_weapon(Game* game, char* name, char* filename, int w, int h, Bullet b
 void use_weapon(Game* game, Weapon* weapon, Bullet* bullets){
 	if(weapon->atk_cooldown <= 0){
 		weapon->atk_cooldown = weapon->atk_cooldown_time;
-		//float x_vel, y_vel;
-		//scaled_hyp(&x_vel, &y_vel, game->mouse_x, game->mouse_y, weapon->x, weapon->y, weapon->bullet_spd);
 		int dx = weapon->x - game->mouse_x;
 		int dy = weapon->y - game->mouse_y;
 		float hyp = sqrt(dx*dx + dy*dy);
 		float angle = atan2(dy, dx) * (180.0 / M_PI);
-		for(int i = 0; i < (int)ceil((float)weapon->bullet_count / 2); i++){
-			Bullet bullet = new_leaf_bullet(game, weapon->x, weapon->y, angle + (i*2));
-			push_bullet(bullet, bullets);
-		}
-		for(int i = 0; i < (int)floor((float)weapon->bullet_count / 2); i++){
-			Bullet bullet = new_leaf_bullet(game, weapon->x, weapon->y, angle + (i*2));
+		for(int i = -(weapon->bullet_count / 2); i < (weapon->bullet_count / 2); i++){
+			Bullet bullet = new_leaf_bullet(game, weapon->x, weapon->y, angle + (i*20));
 			push_bullet(bullet, bullets);
 		}
 	}
@@ -95,7 +89,46 @@ void render_weapon(Game* game, Weapon* weapon){
 // WEAPONS
 
 Weapon new_twig_weapon(Game* game){
-	Bullet leaf = new_leaf_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Twig", "assets/weapon/twig.png", 8, 8, leaf, 1);
+	Bullet bullet = new_leaf_bullet(game, 0, 0, 0);
+	return new_weapon(game, "Twig", "assets/weapon/staff/twig.png", 8, 8, bullet, 1);
 }
 
+Weapon new_staff_weapon(Game* game){
+	Bullet bullet = new_plasma_bullet(game, 0, 0, 0);
+	return new_weapon(game, "Staff", "assets/weapon/staff/staff.png", 8, 8, bullet, 1);
+}
+
+Weapon new_scepter_weapon(Game* game){
+	Bullet bullet = new_fireball_bullet(game, 0, 0, 0);
+	return new_weapon(game, "Scepter", "assets/weapon/staff/scepter.png", 8, 8, bullet, 1);
+}
+
+Weapon new_wand_weapon(Game* game){
+	Bullet bullet = new_missle_bullet(game, 0, 0, 0);
+	return new_weapon(game, "Wand", "assets/weapon/staff/wand.png", 8, 8, bullet, 1);
+}
+
+Weapon new_ohnyalei_weapon(Game* game){
+	Bullet bullet = new_sigil_bullet(game, 0, 0, 0);
+	return new_weapon(game, "Ohnyalei", "assets/weapon/staff/ohnyalei.png", 16, 16, bullet, 2);
+}
+
+Weapon new_trident_weapon(Game* game){
+	Bullet bullet = new_water_bullet(game, 0, 0, 0);
+	return new_weapon(game, "Trident", "assets/weapon/staff/trident.png", 16, 16, bullet, 3);
+}
+
+Weapon new_blaze_weapon(Game* game){
+	Bullet bullet = new_blaze_bullet(game, 0, 0, 0);
+	return new_weapon(game, "Blaze Bringer", "assets/weapon/staff/blaze.png", 16, 16, bullet, 5);
+}
+
+Weapon new_raph_weapon(Game* game){
+	Bullet bullet = new_smite_bullet(game, 0, 0, 0);
+	return new_weapon(game, "Raphael's Staff", "assets/weapon/staff/raph.png", 16, 16, bullet, 9);
+}
+
+Weapon new_void_weapon(Game* game){
+	Bullet bullet = new_void_bullet(game, 0, 0, 0);
+	return new_weapon(game, "Void Reaver", "assets/weapon/staff/void.png", 16, 16, bullet, 17);
+}
