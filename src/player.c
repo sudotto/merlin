@@ -23,7 +23,7 @@ Player new_player(Game* game, char* name, SDL_Color color, int spd){
 	player.x_vel = 0;
 	player.y_vel = 0;
 	player.spd = 5;
-	Weapon twig = new_raph_weapon(game);
+	Weapon twig = new_twig_weapon(game);
 	player.weapon = twig; 
 
 	SDL_Color target = {255, 255, 255};

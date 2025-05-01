@@ -51,7 +51,7 @@ void use_weapon(Game* game, Weapon* weapon, Bullet* bullets){
 		int dy = weapon->y - game->mouse_y;
 		float hyp = sqrt(dx*dx + dy*dy);
 		float angle = atan2(dy, dx) * (180.0 / M_PI);
-		for(int i = -(weapon->bullet_count / 2); i < (weapon->bullet_count / 2); i++){
+		for(int i = -(weapon->bullet_count / 2); i < weapon->bullet_count - (weapon->bullet_count / 2); i++){
 			Bullet bullet = new_smite_bullet(game, weapon->x, weapon->y, angle + (i*20));
 			push_bullet(bullet, bullets);
 		}
@@ -60,7 +60,7 @@ void use_weapon(Game* game, Weapon* weapon, Bullet* bullets){
 
 void update_weapon(Game* game, Weapon* weapon, int parent_x, int parent_y){
 	float dx, dy;
-	scaled_hyp(&dx, &dy, game->mouse_x, game->mouse_y, parent_x, parent_y, 20);
+	scaled_hyp(&dx, &dy, game->mouse_x, game->mouse_y, parent_x, parent_y, 50);
 	weapon->x = parent_x + dx;
 	weapon->y = parent_y + dy;
 	if(weapon->atk_cooldown > 0){
@@ -110,7 +110,7 @@ Weapon new_wand_weapon(Game* game){
 
 Weapon new_ohnyalei_weapon(Game* game){
 	Bullet bullet = new_sigil_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Ohnyalei", "assets/weapon/staff/ohnyalei.png", 16, 16, bullet, 2);
+	return new_weapon(game, "Ohnyalei", "assets/weapon/staff/ohnyalei.png", 16, 16, bullet, 3);
 }
 
 Weapon new_trident_weapon(Game* game){
@@ -125,10 +125,10 @@ Weapon new_blaze_weapon(Game* game){
 
 Weapon new_raph_weapon(Game* game){
 	Bullet bullet = new_smite_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Raphael's Staff", "assets/weapon/staff/raph.png", 16, 16, bullet, 9);
+	return new_weapon(game, "Raphael's Staff", "assets/weapon/staff/raph.png", 16, 16, bullet, 10);
 }
 
 Weapon new_void_weapon(Game* game){
 	Bullet bullet = new_void_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Void Reaver", "assets/weapon/staff/void.png", 16, 16, bullet, 17);
+	return new_weapon(game, "Void Reaver", "assets/weapon/staff/void.png", 16, 16, bullet, 15);
 }
