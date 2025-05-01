@@ -23,17 +23,17 @@ typedef struct {
 	bool init;
 	int id;
 	Img sprite;
-	int x;
-	int y;
+	float x;
+	float y;
 	int w;
 	int h;
-	int x_vel;
-	int y_vel;
+	float x_vel;
+	float y_vel;
+	int spd;
 	int angle;
 	int age;
 	int lifespan;
 	bool dead;
-	int spd;
 	int bounces;
 } Bullet;
 
