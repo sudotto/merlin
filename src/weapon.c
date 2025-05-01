@@ -36,7 +36,7 @@ Weapon new_weapon(Game* game, char* name, char* filename, int w, int h, Bullet b
 	weapon.atk_cooldown_time = 0.5;
 	weapon.sprite = new_img(game->rend, filename);
 
-	weapon.bullet_spd = bullet.spd;
+	weapon.bullet_spd = bullet.entity.spd;
 	weapon.bullet_lifespan = bullet.lifespan;
 	weapon.bullet_bounces = bullet.bounces;
 	weapon.bullet_count = bullet_count;

@@ -8,6 +8,7 @@
 #include <SDL3_image/SDL_image.h>
 
 #include "otto-game.h"
+#include "entity.h"
 
 #define MAX_BULLET 256
 
@@ -23,17 +24,9 @@ typedef struct {
 	bool init;
 	int id;
 	Img sprite;
-	float x;
-	float y;
-	int w;
-	int h;
-	float x_vel;
-	float y_vel;
-	int spd;
-	int angle;
+	Entity entity;
 	int age;
 	int lifespan;
-	bool dead;
 	int bounces;
 } Bullet;
 

@@ -9,6 +9,7 @@
 #include <SDL3_image/SDL_image.h>
 
 #include "otto-game.h"
+#include "entity.h"
 
 #include "bullet.h"
 
@@ -17,24 +18,21 @@
 Bullet new_bullet(Game* game, int x, int y, int w, int h, char* filename, int lifespan, int spd, int angle){
 	Bullet bullet;
 	bullet.init = true;
-	bullet.x = x;
-	bullet.y = y;
-	bullet.w = w * 4;
-	bullet.h = h * 4;
-	bullet.angle = angle;
-	bullet.spd = spd;
 	bullet.age = 0;
+	bullet.sprite = new_img(game->rend, filename);
 	bullet.lifespan = lifespan * 60;
 	bullet.bounces;
-	bullet.dead = false;
-	bullet.angle = angle;
+
+	bullet.entity.x = x;
+	bullet.entity.y = y;
+	bullet.entity.w = w * 4;
+	bullet.entity.h = h * 4;
+	bullet.entity.angle = angle;
+	bullet.entity.spd = spd;
+
 	float radians = angle * (M_PI / 180.0);
-	bullet.x_vel = spd * cos(radians);
-	bullet.y_vel = spd * sin(radians);
-
-	bullet.sprite = new_img(game->rend, filename);
-
-	//push_bullet(&bullet, bullets);
+	bullet.entity.xv = spd * cos(radians);
+	bullet.entity.yv = spd * sin(radians);
 
 	return bullet;
 }
@@ -44,28 +42,28 @@ void update_bullet(Bullet* bullet, Bullet* bullets){
 	if(bullet->age >= bullet->lifespan){
 		pop_bullet(*bullet, bullets);
 	}
-	if(bullet->x < 0 || bullet->x > 600){
+	if(bullet->entity.x < 0 || bullet->entity.x > 600){
 		if(bullet->bounces > 0){
-			bullet->x_vel = -bullet->x_vel;
-			bullet->angle = -bullet->angle;
+			bullet->entity.xv = -bullet->entity.xv;
+			bullet->entity.angle = -bullet->entity.angle;
 		} else {
 			pop_bullet(*bullet, bullets);
 		}
 	}
-	if(bullet->y < 0 || bullet->y > 600){
+	if(bullet->entity.y < 0 || bullet->entity.y > 600){
 		if(bullet->bounces > 0){
-			bullet->y_vel = -bullet->y_vel;
-			bullet->angle = -bullet->angle;
+			bullet->entity.yv = -bullet->entity.yv;
+			bullet->entity.angle = -bullet->entity.angle;
 		} else {
 			pop_bullet(*bullet, bullets);
 		}
 	}
-	bullet->x -= bullet->x_vel;
-	bullet->y -= bullet->y_vel;
+	bullet->entity.x -= bullet->entity.xv;
+	bullet->entity.y -= bullet->entity.yv;
 }
 
 void render_bullet(Game* game, Bullet* bullet){
-	render_img_rotated(game->rend, &bullet->sprite, bullet->x, bullet->y, bullet->w, bullet->h, bullet->angle - 135);
+	render_img_rotated(game->rend, &bullet->sprite, bullet->entity.x, bullet->entity.y, bullet->entity.w, bullet->entity.h, bullet->entity.angle - 135);
 }
 
 // BULLET LIST
