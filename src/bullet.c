@@ -45,12 +45,20 @@ void update_bullet(Bullet* bullet, Bullet* bullets){
 		pop_bullet(*bullet, bullets);
 	}
 	if(bullet->x < 0 || bullet->x > 600){
-		bullet->x_vel = -bullet->x_vel;
-		bullet->angle = -bullet->angle;
+		if(bullet->bounces > 0){
+			bullet->x_vel = -bullet->x_vel;
+			bullet->angle = -bullet->angle;
+		} else {
+			pop_bullet(*bullet, bullets);
+		}
 	}
 	if(bullet->y < 0 || bullet->y > 600){
-		bullet->y_vel = -bullet->y_vel;
-		bullet->angle = -bullet->angle;
+		if(bullet->bounces > 0){
+			bullet->y_vel = -bullet->y_vel;
+			bullet->angle = -bullet->angle;
+		} else {
+			pop_bullet(*bullet, bullets);
+		}
 	}
 	bullet->x -= bullet->x_vel;
 	bullet->y -= bullet->y_vel;
@@ -136,7 +144,7 @@ Bullet new_missle_bullet(Game* game, int x, int y, int angle){
 }
 
 Bullet new_sigil_bullet(Game* game, int x, int y, int angle){
-	return new_bullet(game, x, y,bullet->x_vel = -bullet->x_vel; 		bullet->angle = -bullet->angle; 	} 	if(bullet->y < 0 || bullet->y > 600){ 		bullet->y_vel = -bullet->y_vel; 		bullet->angle = -bullet->angle; 	} 	bullet->x -= bullet->x_vel; 	bullet->y -= bullet->y_vel; }  void render_bullet(Game* game, Bullet* bullet){ 	render_img_rotated(game->rend, &bullet->sprite, bullet->x, bullet->y, bullet->w, bullet->h, bullet->angle - 135); } 8, 8, "assets/bullet/magic/sigil.png", 3, 10, angle);
+	return new_bullet(game, x, y, 8, 8, "assets/bullet/magic/sigil.png", 3, 10, angle);
 }
 
 Bullet new_water_bullet(Game* game, int x, int y, int angle){

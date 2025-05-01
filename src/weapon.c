@@ -52,7 +52,7 @@ void use_weapon(Game* game, Weapon* weapon, Bullet* bullets){
 		float hyp = sqrt(dx*dx + dy*dy);
 		float angle = atan2(dy, dx) * (180.0 / M_PI);
 		for(int i = -(weapon->bullet_count / 2); i < (weapon->bullet_count / 2); i++){
-			Bullet bullet = new_leaf_bullet(game, weapon->x, weapon->y, angle + (i*20));
+			Bullet bullet = new_smite_bullet(game, weapon->x, weapon->y, angle + (i*20));
 			push_bullet(bullet, bullets);
 		}
 	}
