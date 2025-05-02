@@ -10,16 +10,12 @@
 #include "otto-game.h"
 #include "bullet.h"
 #include "weapon.h"
+#include "entity.h"
 
 typedef struct {
 	char* name;
 	Img sprite;
-	int x;
-	int y;
-	int w;
-	int h;
-	int x_vel;
-	int y_vel;
+	Entity entity;
 	int spd;
 	Weapon weapon;
 } Player;

@@ -6,6 +6,8 @@
 #include "otto-game.h"
 #include "entity.h"
 
+void scaled_hyp(float* x_dist, float* y_dist, float x1, float y1, float x2, int y2, float max);
+
 // WEAPON TYPES
 
 typedef enum {
@@ -40,23 +42,12 @@ typedef struct {
 	Img sprite;
 	Entity entity;
 	Weapon_data data;
+	int angle;
 } Weapon;
 
 Weapon new_weapon(Game* game, Weapon_type type);
 void use_weapon(Game* game, Weapon* weapon, Bullet* bullets);
-void update_weapon(Game* game, Weapon* weapon, int parent_x, int parent_y);
+void update_weapon(Game* game, Weapon* weapon, Entity parent_entity);
 void render_weapon(Game* game, Weapon* weapon);
-
-// WEAPONS
-
-Weapon new_twig_weapon(Game* game);
-Weapon new_staff_weapon(Game* game);
-Weapon new_scepter_weapon(Game* game);
-Weapon new_wand_weapon(Game* game);
-Weapon new_ohnyalei_weapon(Game* game);
-Weapon new_trident_weapon(Game* game);
-Weapon new_blaze_weapon(Game* game);
-Weapon new_raph_weapon(Game* game);
-Weapon new_void_weapon(Game* game);
 
 #endif

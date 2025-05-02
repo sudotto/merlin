@@ -13,12 +13,27 @@
 
 #include "bullet.h"
 
+// BULLET TYPES
+
+Bullet_data bullet_data_table[9] = {
+	{"assets/bullet/magic/leaf.png",     4 * 4, 10, 60, 0},
+	{"assets/bullet/magic/plasma.png",   4 * 4, 20, 60, 1},
+	{"assets/bullet/magic/fireball.png", 4 * 4, 20, 60, 0},
+	{"assets/bullet/magic/missle.png",   4 * 4, 20, 60, 0},
+	{"assets/bullet/magic/sigil.png",    8 * 4, 30, 60, 2},
+	{"assets/bullet/magic/water.png",    8 * 4, 30, 60, 2},
+	{"assets/bullet/magic/blaze.png",    8 * 4, 30, 60, 0},
+	{"assets/bullet/magic/smite.png",    8 * 4, 40, 60, 0},
+	{"assets/bullet/magic/void.png",     8 * 4, 20, 60, 3}
+};
+
 // BULLET
 
 Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, int angle, Bullet_type type){
 	Bullet bullet;
 	bullet.init = true;
 	bullet.age = 0;
+	bullet.angle = angle;
 
 	bullet.data = bullet_data_table[type];
 	bullet.sprite = new_img(game->rend, bullet.data.filename);
@@ -59,19 +74,6 @@ void render_bullet(Game* game, Bullet* bullet){
 	render_img_rotated(game->rend, &bullet->sprite, bullet->entity.x, bullet->entity.y, bullet->entity.w, bullet->entity.h, bullet->angle - 135);
 }
 
-// BULLET TYPES
-
-Bullet_data bullet_data_table[9] = {
-	{"assets/bullet/magic/leaf.png",     4 * 4, 10, 60, 0},
-	{"assets/bullet/magic/plasma.png",   4 * 4, 20, 60, 0},
-	{"assets/bullet/magic/fireball.png", 4 * 4, 20, 60, 0},
-	{"assets/bullet/magic/missle.png",   4 * 4, 20, 60, 0},
-	{"assets/bullet/magic/sigil.png",    8 * 4, 30, 60, 0},
-	{"assets/bullet/magic/water.png",    8 * 4, 30, 60, 0},
-	{"assets/bullet/magic/blaze.png",    8 * 4, 30, 60, 0},
-	{"assets/bullet/magic/smite.png",    8 * 4, 40, 60, 0},
-	{"assets/bullet/magic/void.png",     8 * 4, 40, 60, 0}
-};
 
 // BULLET LIST
 

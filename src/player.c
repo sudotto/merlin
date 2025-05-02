@@ -10,20 +10,16 @@
 #include "otto-game.h"
 #include "bullet.h"
 #include "weapon.h"
+#include "entity.h"
 
 #include "player.h"
 
 Player new_player(Game* game, char* name, SDL_Color color, int spd){
 	Player player;
 	player.name = name;
-	player.x = 10;
-	player.y = 10;
-	player.w = 8 * 4;
-	player.h = 8 * 4;
-	player.x_vel = 0;
-	player.y_vel = 0;
+	player.entity = new_entity(10, 10, 8*4, 8*4, 0, 0);
 	player.spd = 5;
-	Weapon twig = new_weapon(game, INFERNO_WEAPON);
+	Weapon twig = new_weapon(game, VOID_WEAPON);
 	player.weapon = twig; 
 
 	SDL_Color target = {255, 255, 255};
@@ -34,16 +30,16 @@ Player new_player(Game* game, char* name, SDL_Color color, int spd){
 
 void control_player(Game* game, Player* player, Bullet* bullets){
 	if(game->keystates[SDL_SCANCODE_W]){
-		player->y_vel = -player->spd;
+		player->entity.yv = -player->spd;
 	}
 	if(game->keystates[SDL_SCANCODE_A]){
-		player->x_vel = -player->spd;
+		player->entity.xv = -player->spd;
 	}
 	if(game->keystates[SDL_SCANCODE_S]){
-		player->y_vel = player->spd;
+		player->entity.yv = player->spd;
 	}
 	if(game->keystates[SDL_SCANCODE_D]){
-		player->x_vel = player->spd;
+		player->entity.xv = player->spd;
 	}
 	if(game->mousestates & SDL_BUTTON_MASK(SDL_BUTTON_LEFT)){
 		use_weapon(game, &player->weapon, bullets);
@@ -51,27 +47,27 @@ void control_player(Game* game, Player* player, Bullet* bullets){
 }
 
 void update_player(Game* game, Player* player){
-	player->y += player->y_vel;
-	if(player->y_vel < 0){
-		player->y_vel += 1;
-	} else if(player->y_vel > 0){
-		player->y_vel -= 1;
+	player->entity.y += player->entity.yv;
+	if(player->entity.yv < 0){
+		player->entity.yv += 1;
+	} else if(player->entity.yv > 0){
+		player->entity.yv -= 1;
 	} else {
-		player->y_vel = 0;
+		player->entity.yv = 0;
 	}
 
-	player->x += player->x_vel;
-	if(player->x_vel < 0){
-		player->x_vel += 1;
-	} else if(player->x_vel > 0){
-		player->x_vel -= 1;
+	player->entity.x += player->entity.xv;
+	if(player->entity.xv < 0){
+		player->entity.xv += 1;
+	} else if(player->entity.xv > 0){
+		player->entity.xv -= 1;
 	} else {
-		player->x_vel = 0;
+		player->entity.xv = 0;
 	}
-	update_weapon(game, &player->weapon, player->x, player->y);
+	update_weapon(game, &player->weapon, player->entity);
 }
 
 void render_player(Game* game, Player* player){
-	render_img(game->rend, &player->sprite, player->x, player->y, player->w, player->h);
+	render_img(game->rend, &player->sprite, player->entity.x, player->entity.y, player->entity.w, player->entity.h);
 	render_weapon(game, &player->weapon);
 }
