@@ -24,10 +24,10 @@ void scaled_hyp(float* x_dist, float* y_dist, int x1, int y1, int x2, int y2, in
 	*y_dist = (int)(dy * scale);
 }
 
-Weapon new_weapon(Game* game, char* name, char* filename, int w, int h, Bullet bullet, int bullet_count){
+Weapon new_weapon(Game* game, char* name, char* filename, int w, int h, int bullet_count, Bullet_type bullet_type){
 	Weapon weapon;
 	weapon.init = true;
-	weapon.name = name;
+	weapon.name = name;  // REMINDER TO GIVE WEAPONS ENTITIES INSTEAD OF THE CURRENT SYSTEM
 	weapon.x = 0;
 	weapon.y = 0;
 	weapon.w = w * 4;
@@ -36,9 +36,7 @@ Weapon new_weapon(Game* game, char* name, char* filename, int w, int h, Bullet b
 	weapon.atk_cooldown_time = 0.5;
 	weapon.sprite = new_img(game->rend, filename);
 
-	weapon.bullet_spd = bullet.entity.spd;
-	weapon.bullet_lifespan = bullet.lifespan;
-	weapon.bullet_bounces = bullet.bounces;
+	weapon.bullet_type = bullet_type;
 	weapon.bullet_count = bullet_count;
 
 	return weapon;
@@ -52,8 +50,7 @@ void use_weapon(Game* game, Weapon* weapon, Bullet* bullets){
 		float hyp = sqrt(dx*dx + dy*dy);
 		float angle = atan2(dy, dx) * (180.0 / M_PI);
 		for(int i = -(weapon->bullet_count / 2); i < weapon->bullet_count - (weapon->bullet_count / 2); i++){
-			Bullet bullet = new_smite_bullet(game, weapon->x, weapon->y, angle + (i*20));
-			push_bullet(bullet, bullets);
+			new_bullet(game, bullets, weapon->x, weapon->y, angle+(i*20), weapon->bullet_type);
 		}
 	}
 }
@@ -89,46 +86,37 @@ void render_weapon(Game* game, Weapon* weapon){
 // WEAPONS
 
 Weapon new_twig_weapon(Game* game){
-	Bullet bullet = new_leaf_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Twig", "assets/weapon/staff/twig.png", 8, 8, bullet, 1);
+	return new_weapon(game, "Twig", "assets/weapon/staff/twig.png", 8, 8, 1, LEAF);
 }
 
 Weapon new_staff_weapon(Game* game){
-	Bullet bullet = new_plasma_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Staff", "assets/weapon/staff/staff.png", 8, 8, bullet, 1);
+	return new_weapon(game, "Staff", "assets/weapon/staff/staff.png", 8, 8, 1, FIREBALL);
 }
 
 Weapon new_scepter_weapon(Game* game){
-	Bullet bullet = new_fireball_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Scepter", "assets/weapon/staff/scepter.png", 8, 8, bullet, 1);
+	return new_weapon(game, "Scepter", "assets/weapon/staff/scepter.png", 8, 8, 1, MISSLE);
 }
 
 Weapon new_wand_weapon(Game* game){
-	Bullet bullet = new_missle_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Wand", "assets/weapon/staff/wand.png", 8, 8, bullet, 1);
+	return new_weapon(game, "Wand", "assets/weapon/staff/wand.png", 8, 8, 1, PLASMA);
 }
 
 Weapon new_ohnyalei_weapon(Game* game){
-	Bullet bullet = new_sigil_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Ohnyalei", "assets/weapon/staff/ohnyalei.png", 16, 16, bullet, 3);
+	return new_weapon(game, "Ohnyalei", "assets/weapon/staff/ohnyalei.png", 16, 16, 3, SIGIL);
 }
 
 Weapon new_trident_weapon(Game* game){
-	Bullet bullet = new_water_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Trident", "assets/weapon/staff/trident.png", 16, 16, bullet, 3);
+	return new_weapon(game, "Trident", "assets/weapon/staff/trident.png", 16, 16, 3, WATER);
 }
 
 Weapon new_blaze_weapon(Game* game){
-	Bullet bullet = new_blaze_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Blaze Bringer", "assets/weapon/staff/blaze.png", 16, 16, bullet, 5);
+	return new_weapon(game, "Blaze Bringer", "assets/weapon/staff/blaze.png", 16, 16, 5, BLAZE);
 }
 
 Weapon new_raph_weapon(Game* game){
-	Bullet bullet = new_smite_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Raphael's Staff", "assets/weapon/staff/raph.png", 16, 16, bullet, 10);
+	return new_weapon(game, "Raphael's Staff", "assets/weapon/staff/raph.png", 16, 16, 10, SMITE);
 }
 
 Weapon new_void_weapon(Game* game){
-	Bullet bullet = new_void_bullet(game, 0, 0, 0);
-	return new_weapon(game, "Void Reaver", "assets/weapon/staff/void.png", 16, 16, bullet, 15);
+	return new_weapon(game, "Void Reaver", "assets/weapon/staff/void.png", 16, 16, 15, VOID);
 }

@@ -15,45 +15,38 @@
 
 // BULLET
 
-Bullet new_bullet(Game* game, int x, int y, int w, int h, char* filename, int lifespan, int spd, int angle){
+Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, int angle, Bullet_type type){
 	Bullet bullet;
 	bullet.init = true;
 	bullet.age = 0;
-	bullet.sprite = new_img(game->rend, filename);
-	bullet.lifespan = lifespan * 60;
-	bullet.bounces;
 
-	bullet.entity.x = x;
-	bullet.entity.y = y;
-	bullet.entity.w = w * 4;
-	bullet.entity.h = h * 4;
-	bullet.entity.angle = angle;
-	bullet.entity.spd = spd;
+	bullet.data = bullet_data_table[type];
+	bullet.sprite = new_img(game->rend, bullet.data.filename);
 
 	float radians = angle * (M_PI / 180.0);
-	bullet.entity.xv = spd * cos(radians);
-	bullet.entity.yv = spd * sin(radians);
+	bullet.entity = new_entity(x, y, bullet.data.size, bullet.data.size, bullet.data.spd * cos(radians), bullet.data.spd * sin(radians));
+	push_bullet(bullet, bullets);
 
 	return bullet;
 }
 
 void update_bullet(Bullet* bullet, Bullet* bullets){
 	bullet->age++;
-	if(bullet->age >= bullet->lifespan){
+	if(bullet->age >= bullet->data.lifespan){
 		pop_bullet(*bullet, bullets);
 	}
 	if(bullet->entity.x < 0 || bullet->entity.x > 600){
-		if(bullet->bounces > 0){
+		if(bullet->data.bounces > 0){
 			bullet->entity.xv = -bullet->entity.xv;
-			bullet->entity.angle = -bullet->entity.angle;
+			bullet->angle = -bullet->angle;
 		} else {
 			pop_bullet(*bullet, bullets);
 		}
 	}
 	if(bullet->entity.y < 0 || bullet->entity.y > 600){
-		if(bullet->bounces > 0){
+		if(bullet->data.bounces > 0){
 			bullet->entity.yv = -bullet->entity.yv;
-			bullet->entity.angle = -bullet->entity.angle;
+			bullet->angle = -bullet->angle;
 		} else {
 			pop_bullet(*bullet, bullets);
 		}
@@ -63,8 +56,22 @@ void update_bullet(Bullet* bullet, Bullet* bullets){
 }
 
 void render_bullet(Game* game, Bullet* bullet){
-	render_img_rotated(game->rend, &bullet->sprite, bullet->entity.x, bullet->entity.y, bullet->entity.w, bullet->entity.h, bullet->entity.angle - 135);
+	render_img_rotated(game->rend, &bullet->sprite, bullet->entity.x, bullet->entity.y, bullet->entity.w, bullet->entity.h, bullet->angle - 135);
 }
+
+// BULLET TYPES
+
+Bullet_data bullet_data_table[9] = {
+	{"assets/bullet/magic/leaf.png",     16, 10, 60, 0},
+	{"assets/bullet/magic/plasma.png",   16, 20, 60, 0},
+	{"assets/bullet/magic/fireball.png", 16, 20, 60, 0},
+	{"assets/bullet/magic/missle.png",   16, 20, 60, 0},
+	{"assets/bullet/magic/sigil.png",    32, 30, 60, 0},
+	{"assets/bullet/magic/water.png",    32, 30, 60, 0},
+	{"assets/bullet/magic/blaze.png",    32, 30, 60, 0},
+	{"assets/bullet/magic/smite.png",    32, 40, 60, 0},
+	{"assets/bullet/magic/void.png",     32, 40, 60, 0}
+};
 
 // BULLET LIST
 
@@ -122,45 +129,3 @@ void print_bullets(Bullet* bullets){
 void destroy_bullets(Bullet* bullets){
 	free(bullets);
 }
-
-// BULLET TYPES
-
-Bullet new_leaf_bullet(Game* game, int x, int y, int angle){
-	return new_bullet(game, x, y, 4, 4, "assets/bullet/magic/leaf.png", 1, 5, angle);
-}
-
-Bullet new_plasma_bullet(Game* game, int x, int y, int angle){
-	return new_bullet(game, x, y, 4, 4, "assets/bullet/magic/plasma.png", 2, 15, angle);
-}
-
-Bullet new_fireball_bullet(Game* game, int x, int y, int angle){
-	return new_bullet(game, x, y, 4, 4, "assets/bullet/magic/fireball.png", 2, 20, angle);
-}
-
-Bullet new_missle_bullet(Game* game, int x, int y, int angle){
-	return new_bullet(game, x, y, 4, 4, "assets/bullet/magic/missle.png", 2, 20, angle);
-}
-
-Bullet new_sigil_bullet(Game* game, int x, int y, int angle){
-	return new_bullet(game, x, y, 8, 8, "assets/bullet/magic/sigil.png", 3, 10, angle);
-}
-
-Bullet new_water_bullet(Game* game, int x, int y, int angle){
-	return new_bullet(game, x, y, 8, 8, "assets/bullet/magic/water.png", 2, 20, angle);
-}
-
-Bullet new_blaze_bullet(Game* game, int x, int y, int angle){
-	return new_bullet(game, x, y, 8, 8, "assets/bullet/magic/blaze.png", 2, 20, angle);
-}
-
-Bullet new_smite_bullet(Game* game, int x, int y, int angle){
-	return new_bullet(game, x, y, 8, 8, "assets/bullet/magic/smite.png", 1, 30, angle);
-}
-
-Bullet new_void_bullet(Game* game, int x, int y, int angle){
-	return new_bullet(game, x, y, 8, 8, "assets/bullet/magic/void.png", 1, 15, angle);
-}
-
-// SPAWN BULLET
-
-//void spawn_bullet(bullet);

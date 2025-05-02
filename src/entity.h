@@ -8,8 +8,8 @@ typedef struct {
 	int h;
 	float xv;
 	float yv;
-	float spd;
-	int angle;
 } Entity;
+
+Entity new_entity(float x, float y, int w, int h, float xv, float yv);
 
 #endif

@@ -15,22 +15,42 @@
 // BULLET TYPES
 
 typedef enum {
-	LEAF
+	LEAF,
+	PLASMA,
+	FIREBALL,
+	MISSLE,
+	SIGIL,
+	WATER,
+	BLAZE,
+	SMITE,
+	VOID
 } Bullet_type;
+
+typedef struct {
+	char* filename;
+	int size;
+	int spd;
+	int lifespan;
+	int bounces;
+} Bullet_data;
+
+Bullet_data new_bullet_data(char* filename, int size, int spd, int lifespan, int bounces);
+
+extern Bullet_data bullet_data_table[9];
 
 // BULLET
 
 typedef struct {
 	bool init;
 	int id;
-	Img sprite;
-	Entity entity;
 	int age;
-	int lifespan;
-	int bounces;
+	Img sprite;
+	Bullet_data data;
+	Entity entity;
+	int angle;
 } Bullet;
 
-Bullet new_bullet(Game* game, int x, int y, int w, int h, char* filename, int lifespan, int spd, int angle);
+Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, int angle, Bullet_type type);
 void update_bullet(Bullet* bullet, Bullet* bullets);
 void render_bullet(Game* game, Bullet* bullet);
 void kill_bullet(Bullet* bullet, Bullet* bullets);
@@ -43,17 +63,5 @@ void update_bullets(Bullet* bullets);
 void render_bullets(Game* game, Bullet* bullets);
 void print_bullets(Bullet* bullets);
 void destroy_bullets(Bullet* bullets);
-
-// BULLET TYPES
-
-Bullet new_leaf_bullet(Game* game, int x, int y, int angle);
-Bullet new_plasma_bullet(Game* game, int x, int y, int angle);
-Bullet new_fireball_bullet(Game* game, int x, int y, int angle);
-Bullet new_missle_bullet(Game* game, int x, int y, int angle);
-Bullet new_sigil_bullet(Game* game, int x, int y, int angle);
-Bullet new_water_bullet(Game* game, int x, int y, int angle);
-Bullet new_blaze_bullet(Game* game, int x, int y, int angle);
-Bullet new_smite_bullet(Game* game, int x, int y, int angle);
-Bullet new_void_bullet(Game* game, int x, int y, int angle);
 
 #endif

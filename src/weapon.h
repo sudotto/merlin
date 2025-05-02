@@ -18,14 +18,12 @@ typedef struct {
 	int h;
 	float atk_cooldown;
 	float atk_cooldown_time;
-	int bullet_spd;
-	int bullet_lifespan;
-	int bullet_bounces;
+	Bullet_type bullet_type;
 	int bullet_count;
 } Weapon;
 
 void scaled_hyp(float* x_dist, float* y_dist, int x1, int y1, int x2, int y2, int max);
-Weapon new_weapon(Game* game, char* name, char* filename, int w, int h, Bullet bullet, int bullet_count);
+Weapon new_weapon(Game* game, char* name, char* filename, int w, int h, int bullet_count, Bullet_type bullet_type);
 void use_weapon(Game* game, Weapon* weapon, Bullet* bullets);
 void update_weapon(Game* game, Weapon* weapon, int parent_x, int parent_y);
 void render_weapon(Game* game, Weapon* weapon);
