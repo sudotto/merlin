@@ -6,22 +6,43 @@
 #include "otto-game.h"
 #include "entity.h"
 
+// WEAPON TYPES
+
+typedef enum {
+	TWIG_WEAPON,
+	STAFF_WEAPON,
+	SCEPTER_WEAPON,
+	WAND_WEAPON,
+	OHNYALEI_WEAPON,
+	TSUNAMI_WEAPON,
+	INFERNO_WEAPON,
+	RAPH_WEAPON,
+	VOID_WEAPON
+} Weapon_type;
+
+typedef struct {
+	char* name;
+	char* filename;
+	int size;
+	float atk_cooldown_time;
+	Bullet_type bullet_type;
+	int bullet_count;
+} Weapon_data;
+
+extern Weapon_data weapon_data_table[9];
+
 // WEAPON
 
 typedef struct {
 	bool init;
 	int id;
-	char* name;
-	Img sprite;
 	float atk_cooldown;
-	float atk_cooldown_time;
+	Img sprite;
 	Entity entity;
-	Bullet_type bullet_type;
-	int bullet_count;
+	Weapon_data data;
 } Weapon;
 
-void scaled_hyp(float* x_dist, float* y_dist, int x1, int y1, int x2, int y2, int max);
-Weapon new_weapon(Game* game, char* name, char* filename, int size, int bullet_count, Bullet_type bullet_type);
+Weapon new_weapon(Game* game, Weapon_type type);
 void use_weapon(Game* game, Weapon* weapon, Bullet* bullets);
 void update_weapon(Game* game, Weapon* weapon, int parent_x, int parent_y);
 void render_weapon(Game* game, Weapon* weapon);

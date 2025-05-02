@@ -34,8 +34,6 @@ typedef struct {
 	int bounces;
 } Bullet_data;
 
-Bullet_data new_bullet_data(char* filename, int size, int spd, int lifespan, int bounces);
-
 extern Bullet_data bullet_data_table[9];
 
 // BULLET
@@ -44,10 +42,10 @@ typedef struct {
 	bool init;
 	int id;
 	int age;
-	Img sprite;
-	Bullet_data data;
-	Entity entity;
 	int angle;
+	Img sprite;
+	Entity entity;
+	Bullet_data data;
 } Bullet;
 
 Bullet new_bullet(Game* game, Bullet* bullets, int x, int y, int angle, Bullet_type type);
