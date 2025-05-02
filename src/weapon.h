@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #include "otto-game.h"
+#include "entity.h"
 
 // WEAPON
 
@@ -12,18 +13,15 @@ typedef struct {
 	int id;
 	char* name;
 	Img sprite;
-	int x;
-	int y;
-	int w;
-	int h;
 	float atk_cooldown;
 	float atk_cooldown_time;
+	Entity entity;
 	Bullet_type bullet_type;
 	int bullet_count;
 } Weapon;
 
 void scaled_hyp(float* x_dist, float* y_dist, int x1, int y1, int x2, int y2, int max);
-Weapon new_weapon(Game* game, char* name, char* filename, int w, int h, int bullet_count, Bullet_type bullet_type);
+Weapon new_weapon(Game* game, char* name, char* filename, int size, int bullet_count, Bullet_type bullet_type);
 void use_weapon(Game* game, Weapon* weapon, Bullet* bullets);
 void update_weapon(Game* game, Weapon* weapon, int parent_x, int parent_y);
 void render_weapon(Game* game, Weapon* weapon);
