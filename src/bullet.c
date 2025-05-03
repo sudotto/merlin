@@ -21,7 +21,7 @@ Bullet_data bullet_data_table[9] = {
 	{"assets/bullet/magic/fireball.png", 4 * 4, 20, 60, 0},
 	{"assets/bullet/magic/missle.png",   4 * 4, 20, 60, 0},
 	{"assets/bullet/magic/sigil.png",    8 * 4, 30, 60, 2},
-	{"assets/bullet/magic/water.png",    8 * 4, 30, 60, 2},
+	{"assets/bullet/magic/water.png",    8 * 4, 10, 60, 2},
 	{"assets/bullet/magic/blaze.png",    8 * 4, 30, 60, 0},
 	{"assets/bullet/magic/smite.png",    8 * 4, 40, 60, 0},
 	{"assets/bullet/magic/void.png",     8 * 4, 20, 60, 3}
