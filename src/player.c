@@ -19,7 +19,7 @@ Player new_player(Game* game, char* name, SDL_Color color, int spd){
 	player.name = name;
 	player.entity = new_entity(10, 10, 8*4, 8*4, 0, 0);
 	player.spd = 5;
-	Weapon twig = new_weapon(game, TSUNAMI_WEAPON);
+	Weapon twig = new_weapon(game, INFERNO_WEAPON);
 	player.weapon = twig; 
 
 	SDL_Color target = {255, 255, 255};
