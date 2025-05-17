@@ -9,6 +9,7 @@
 
 #include "otto-game.h"
 #include "bullet.h"
+#include "particle.h"
 #include "weapon.h"
 #include "entity.h"
 
@@ -19,16 +20,17 @@ Player new_player(Game* game, char* name, SDL_Color color, int spd){
 	player.name = name;
 	player.entity = new_entity(10, 10, 8*4, 8*4, 0, 0);
 	player.spd = 5;
-	Weapon twig = new_weapon(game, INFERNO_WEAPON);
+	Weapon twig = new_weapon(game, TWIG_WEAPON);
 	player.weapon = twig; 
 
 	SDL_Color target = {255, 255, 255};
-	player.sprite = new_recolored_img(game->rend, "assets/player/pope.png", target, color);
+	player.sprite = new_img(game->rend, "assets/player/wizard.png", true);
+	recolor_img(&player.sprite, game->rend, target, color);
 
 	return player;
 }
 
-void control_player(Game* game, Player* player, Bullet* bullets){
+void control_player(Game* game, Player* player, Bullet* bullets, Particle* particles){
 	if(game->keystates[SDL_SCANCODE_W]){
 		player->entity.yv = -player->spd;
 	}
@@ -42,11 +44,13 @@ void control_player(Game* game, Player* player, Bullet* bullets){
 		player->entity.xv = player->spd;
 	}
 	if(game->mousestates & SDL_BUTTON_MASK(SDL_BUTTON_LEFT)){
-		use_weapon(game, &player->weapon, bullets);
+		use_weapon(game, &player->weapon, bullets, particles);
 	}
 }
 
-void update_player(Game* game, Player* player){
+void update_player(Game* game, Player* player, Bullet* bullets, Particle* particles){
+	control_player(game, player, bullets, particles);
+
 	player->entity.y += player->entity.yv;
 	if(player->entity.yv < 0){
 		player->entity.yv += 1;
@@ -64,7 +68,7 @@ void update_player(Game* game, Player* player){
 	} else {
 		player->entity.xv = 0;
 	}
-	update_weapon(game, &player->weapon, player->entity);
+	update_weapon(game, &player->weapon, player->entity, game->mouse_x, game->mouse_y);
 }
 
 void render_player(Game* game, Player* player){

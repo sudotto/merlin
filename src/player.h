@@ -21,8 +21,8 @@ typedef struct {
 } Player;
 
 Player new_player(Game* game, char* name, SDL_Color color, int spd);
-void control_player(Game* game, Player* player, Bullet* bullets);
-void update_player(Game* game, Player* player);
+void control_player(Game* game, Player* player, Bullet* bullets, Particle* particles);
+void update_player(Game* game, Player* player, Bullet* bullets, Particle* particles);
 void render_player(Game* game, Player* player);
 
 #endif

@@ -9,6 +9,45 @@
 #include <SDL3_image/SDL_image.h>
 
 ///////////////////
+// BAR
+///////////////////
+
+void render_bar(SDL_Renderer* rend, float val, int max, int x, int y, int w, int h);
+
+///////////////////
+// UTILITY
+///////////////////
+
+int gen_rand(int min, int max);
+
+typedef struct {
+	int x;
+	int y;
+} Point;
+
+typedef struct {
+	int x;
+	int y;
+	int w;
+	int h;
+} Rect;
+
+bool point_in_rect(Point point, Rect rect);
+bool rect_in_rect(Rect rect, Rect rect2);
+
+///////////////////
+// CAMERA
+///////////////////
+
+typedef struct {
+	int x;
+	int y;
+	float scale;
+} Camera;
+
+extern Camera camera;
+
+///////////////////
 // IMAGE
 ///////////////////
 
@@ -17,13 +56,17 @@ typedef struct {
 	SDL_Texture* tex;
 	SDL_FRect crop;
 	bool cropped;
+	bool flipped;
+	bool camera_affected;
+	int angle;
 } Img;
 
-Img new_img(SDL_Renderer* rend, char* filename);
-Img new_cropped_img(SDL_Renderer* rend, char* file, int x, int y, int w, int h);
-Img new_recolored_img(SDL_Renderer* rend, char* file, SDL_Color target, SDL_Color replace);
-void render_img(SDL_Renderer* rend, Img* img, int x, int y, int w, int h);
-void render_img_rotated(SDL_Renderer* rend, Img *img, int x, int y, int w, int h, int angle);
+Img new_img(SDL_Renderer* rend, char* file, bool camera_affected);
+void crop_img(Img* img, int x, int y, int w, int h);
+void flip_img(Img* img, bool flipped);
+void rotate_img(Img* img, int angle);
+void recolor_img(Img* img, SDL_Renderer* rend, SDL_Color target, SDL_Color replace);
+void render_img(SDL_Renderer* rend, Img *img, int x, int y, int w, int h);
 
 ///////////////////
 // ANIMATIONS
@@ -35,7 +78,7 @@ typedef struct {
 	int framecount;
 } Anim;
 
-Anim new_anim(SDL_Renderer* rend, char* filename, int framecount, int row, int w, int h);
+Anim new_anim(SDL_Renderer* rend, char* filename, int framecount, int row, int w, int h, bool camera_affected);
 void render_anim(SDL_Renderer* rend, Anim* anim, int x, int y, int w, int h, float framerate);
 void del_anim(Anim* anim);
 

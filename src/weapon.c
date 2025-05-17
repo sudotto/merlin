@@ -12,6 +12,7 @@
 
 #include "otto-game.h"
 #include "bullet.h"
+#include "particle.h"
 #include "entity.h"
 
 #include "weapon.h"
@@ -37,16 +38,17 @@ void clamp_entity(Entity* entity, Entity origin, Entity target, float dist){
 
 // WEAPON TYPES
 
-Weapon_data weapon_data_table[9] = {
-	{"Twig", "assets/weapon/staff/twig.png",              8,  0.5, 0, 1},
-	{"Staff", "assets/weapon/staff/staff.png",            8,  0.5, 1, 1},
-	{"Scepter", "assets/weapon/staff/scepter.png",        8,  0.7, 2, 1},
-	{"Wand", "assets/weapon/staff/wand.png",              8,  0.3, 3, 1},
-	{"Ohnyalei", "assets/weapon/staff/ohnyalei.png",     16,  0.6, 4, 3},
-	{"Tsunami", "assets/weapon/staff/tsunami.png",       16,  0.4, 5, 7},
-	{"Inferno", "assets/weapon/staff/inferno.png",       16,  0.5, 6, 7},
-	{"Raphael's Staff", "assets/weapon/staff/raph.png",  16,  0.7, 7, 7},
-	{"Void Reaver", "assets/weapon/staff/void.png",      16,  0.5, 8, 5}
+Weapon_data weapon_data_table[WEAPON_TYPE_COUNT] = {
+	{"Twig",            "assets/weapon/magic/twig.png",     8,   20, LEAF_BULLET,     1, 1},
+	{"Gun",             "assets/weapon/range/gun.png",      8,   30, BULLET_BULLET,   1, 1},
+	{"Staff",           "assets/weapon/magic/staff.png",    8,   20, PLASMA_BULLET,   1, 1},
+	{"Scepter",         "assets/weapon/magic/scepter.png",  8,   30, FIREBALL_BULLET, 1, 1},
+	{"Wand",            "assets/weapon/magic/wand.png",     8,   20, MISSILE_BULLET,  1, 1},
+	{"Ohnyalei",        "assets/weapon/magic/ohnyalei.png", 16,  30, SIGIL_BULLET,    3, 90 / 3},
+	{"Tsunami",         "assets/weapon/magic/tsunami.png",  16,  30, WATER_BULLET,    7, 90 / 7},
+	{"Inferno",         "assets/weapon/magic/inferno.png",  16,  30, BLAZE_BULLET,    7, 10},
+	{"Raphael's Staff", "assets/weapon/magic/raph.png",     16,  30, SMITE_BULLET,    7, 10},
+	{"Void Reaver",     "assets/weapon/magic/void.png",     16,  30, VOID_BULLET,     5, 10}
 };
 
 // WEAPON
@@ -56,29 +58,34 @@ Weapon new_weapon(Game* game, Weapon_type type){
 	weapon.init = true;
 	weapon.data = weapon_data_table[type];
 	weapon.entity = new_entity(0, 0, weapon.data.size * 4, weapon.data.size * 4, 0, 0);
-	weapon.sprite = new_img(game->rend, weapon.data.filename);
+	weapon.sprite = new_img(game->rend, weapon.data.filename, true);
+	weapon.atk_cooldown = 0;
 	return weapon;
 }
 
-void use_weapon(Game* game, Weapon* weapon, Bullet* bullets){
+void use_weapon(Game* game, Weapon* weapon, Bullet* bullets, Particle* particles){
 	if(weapon->atk_cooldown <= 0){
 		weapon->atk_cooldown = weapon->data.atk_cooldown_time;
 		for(int i = -(weapon->data.bullet_count / 2); i < weapon->data.bullet_count - (weapon->data.bullet_count / 2); i++){
-			new_bullet(game, bullets, weapon->entity.x, weapon->entity.y, weapon->angle+(i*10), weapon->data.bullet_type);
+			new_bullet(game, bullets, weapon->entity.x, weapon->entity.y, weapon->angle+(i*weapon->data.spread), weapon->data.bullet_type);
+		}
+		for(int i = 0; i < 4; i++){
+			new_particle(game, particles, weapon->entity.x, weapon->entity.y, weapon->angle+(i*360/4), SPARKLE_PARTICLE);
 		}
 	}
 }
 
-void update_weapon(Game* game, Weapon* weapon, Entity parent){
-	Entity mouse_entity = new_entity(game->mouse_x, game->mouse_y, 0, 0, 0, 0);
-	clamp_entity(&weapon->entity, parent, mouse_entity, (float)weapon->entity.w * 0.9);
-
-	float dx = (int)parent.x - game->mouse_x;
-	float dy = (int)parent.y - game->mouse_y;
+void update_weapon(Game* game, Weapon* weapon, Entity parent, int target_x, int target_y){
+	Entity target_entity = new_entity(target_x, target_y, 0, 0, 0, 0);
+	clamp_entity(&weapon->entity, parent, target_entity, (float)weapon->entity.w * 0.9);
+	float dx = (int)parent.x - target_x;
+	float dy = (int)parent.y - target_y;
 	float hyp = sqrt(dx*dx + dy*dy);
-	weapon->angle = atan2(dy, dx) * (180.0 / M_PI);
+	double angle_rad = atan2(dy, dx);
+	int angle_deg = (int)(angle_rad * 180.0 / M_PI);
+	weapon->angle = angle_deg;
 	if(weapon->atk_cooldown > 0){
-		weapon->atk_cooldown -= 1.0f / 60;
+		weapon->atk_cooldown -= 1;
 	} else {
 		weapon->atk_cooldown = 0;
 	}
@@ -86,19 +93,19 @@ void update_weapon(Game* game, Weapon* weapon, Entity parent){
 
 void render_weapon(Game* game, Weapon* weapon){
 	// WEAPON
-	render_img_rotated(game->rend, &weapon->sprite, weapon->entity.x, weapon->entity.y, weapon->entity.w, weapon->entity.h, weapon->angle - 135);
+	int flipped = 0;
+	int angle = weapon->angle - 135;
+	if(weapon->angle < 90 && weapon->angle > -90){
+		flipped = SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL;
+		angle = weapon->angle - 45;
+	}
+	rotate_img(&weapon->sprite, angle);
+	flip_img(&weapon->sprite, flipped);
+	render_img(game->rend, &weapon->sprite, weapon->entity.x, weapon->entity.y, weapon->entity.w, weapon->entity.h);
 
 	// COOLDOWN TIMER
 
 	if(weapon->atk_cooldown){
-		int scaled = weapon->data.atk_cooldown_time * (32 / weapon->data.atk_cooldown_time);
-		SDL_FRect empty = {weapon->entity.x, weapon->entity.y + weapon->entity.w + 2, scaled, 10};
-		SDL_SetRenderDrawColor(game->rend, 0, 0, 0, 255);
-		SDL_RenderFillRect(game->rend, &empty);
-
-		scaled = weapon->atk_cooldown * (32 / weapon->data.atk_cooldown_time);
-		SDL_FRect time = {weapon->entity.x, weapon->entity.y + weapon->entity.w + 2, scaled, 10};
-		SDL_SetRenderDrawColor(game->rend, 255, 0, 0, 255);
-		SDL_RenderFillRect(game->rend, &time);
+		render_bar(game->rend, weapon->atk_cooldown, weapon->data.atk_cooldown_time, weapon->entity.x, weapon->entity.y + 32 + 2, 32, 10);
 	}
 }
