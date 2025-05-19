@@ -20,11 +20,11 @@ Player new_player(Game* game, char* name, SDL_Color color, int spd){
 	player.name = name;
 	player.entity = new_entity(10, 10, 8*4, 8*4, 0, 0);
 	player.spd = 5;
-	Weapon twig = new_weapon(game, TWIG_WEAPON);
+	Weapon twig = new_weapon(game, STAFF_WEAPON);
 	player.weapon = twig; 
 
-	SDL_Color target = {255, 255, 255};
 	player.sprite = new_img(game->rend, "assets/player/wizard.png", true);
+	SDL_Color target = {255, 0, 255};
 	recolor_img(&player.sprite, game->rend, target, color);
 
 	return player;

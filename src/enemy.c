@@ -21,9 +21,9 @@ Enemy new_enemy(Game* game, char* name, int spd){
 	enemy.name = name;
 	enemy.entity = new_entity(300, 300, 8*4, 8*4, 0, 0);
 	enemy.spd = 5;
-	Weapon twig = new_weapon(game, GUN_WEAPON);
+	Weapon twig = new_weapon(game, STAFF_WEAPON);
 	enemy.weapon = twig; 
-	enemy.sprite = new_img(game->rend, "assets/enemy/bandit.png", true);
+	enemy.sprite = new_img(game->rend, "assets/enemy/goblin.png", true);
 	return enemy;
 }
 

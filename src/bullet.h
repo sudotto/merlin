@@ -10,22 +10,13 @@
 #include "otto-game.h"
 #include "entity.h"
 
-#define BULLET_TYPE_COUNT 10
+#define BULLET_TYPE_COUNT 1
 #define MAX_BULLET 256
 
 // BULLET TYPES
 
 typedef enum {
-	LEAF_BULLET,
-	BULLET_BULLET,
-	PLASMA_BULLET,
-	FIREBALL_BULLET,
-	MISSILE_BULLET,
-	SIGIL_BULLET,
-	WATER_BULLET,
-	BLAZE_BULLET,
-	SMITE_BULLET,
-	VOID_BULLET 
+	DEFAULT_BULLET,
 } Bullet_type;
 
 typedef struct {

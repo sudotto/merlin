@@ -10,21 +10,12 @@
 
 void scaled_hyp(float* x_dist, float* y_dist, float x1, float y1, float x2, int y2, float max);
 
-#define WEAPON_TYPE_COUNT 10
+#define WEAPON_TYPE_COUNT 1
 
 // WEAPON TYPES
 
 typedef enum {
-	TWIG_WEAPON,
-	GUN_WEAPON,
 	STAFF_WEAPON,
-	SCEPTER_WEAPON,
-	WAND_WEAPON,
-	OHNYALEI_WEAPON,
-	TSUNAMI_WEAPON,
-	INFERNO_WEAPON,
-	RAPH_WEAPON,
-	VOID_WEAPON
 } Weapon_type;
 
 typedef struct {

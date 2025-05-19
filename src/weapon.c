@@ -39,16 +39,7 @@ void clamp_entity(Entity* entity, Entity origin, Entity target, float dist){
 // WEAPON TYPES
 
 Weapon_data weapon_data_table[WEAPON_TYPE_COUNT] = {
-	{"Twig",            "assets/weapon/magic/twig.png",     8,   20, LEAF_BULLET,     1, 1},
-	{"Gun",             "assets/weapon/range/gun.png",      8,   30, BULLET_BULLET,   1, 1},
-	{"Staff",           "assets/weapon/magic/staff.png",    8,   20, PLASMA_BULLET,   1, 1},
-	{"Scepter",         "assets/weapon/magic/scepter.png",  8,   30, FIREBALL_BULLET, 1, 1},
-	{"Wand",            "assets/weapon/magic/wand.png",     8,   20, MISSILE_BULLET,  1, 1},
-	{"Ohnyalei",        "assets/weapon/magic/ohnyalei.png", 16,  30, SIGIL_BULLET,    3, 90 / 3},
-	{"Tsunami",         "assets/weapon/magic/tsunami.png",  16,  30, WATER_BULLET,    7, 90 / 7},
-	{"Inferno",         "assets/weapon/magic/inferno.png",  16,  30, BLAZE_BULLET,    7, 10},
-	{"Raphael's Staff", "assets/weapon/magic/raph.png",     16,  30, SMITE_BULLET,    7, 10},
-	{"Void Reaver",     "assets/weapon/magic/void.png",     16,  30, VOID_BULLET,     5, 10}
+	{"Staff", "assets/weapon/staff.png", 8, 20, DEFAULT_BULLET, 1, 1},
 };
 
 // WEAPON
