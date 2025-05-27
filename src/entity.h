@@ -1,6 +1,13 @@
 #ifndef ENTITY
 #define ENTITY
 
+typedef enum {
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+} Facing;
+
 typedef struct {
 	float x;
 	float y;

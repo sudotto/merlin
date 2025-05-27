@@ -12,9 +12,19 @@
 #include "weapon.h"
 #include "entity.h"
 
+#define PLAYER_ANIM_COUNT 2
+
+typedef enum {
+	IDLE,
+	WALK,
+} Player_anim;
+
 typedef struct {
 	char* name;
 	Img sprite;
+	Anim anims[PLAYER_ANIM_COUNT][4];
+	Player_anim anim;
+	Facing facing;
 	Entity entity;
 	int spd;
 	Weapon weapon;
