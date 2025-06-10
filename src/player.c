@@ -38,7 +38,7 @@ Player new_player(Game* game, char* name, SDL_Color color, int spd){
 			player.anims[anim][facing] = new_anim(game->rend, filepath, 4, facing, 16 * 10, 16 * 10, true);
 		}
 	}
-	player.anim = IDLE;
+	player.anim = PLAYER_IDLE;
 	free(dirname);
 	free(filepath);
 	return player;
@@ -70,12 +70,12 @@ void control_player(Game* game, Player* player, Bullet* bullets, Particle* parti
 void update_player(Game* game, Player* player, Bullet* bullets, Particle* particles){
 	control_player(game, player, bullets, particles);
 
-	player->anim = IDLE;
+	player->anim = PLAYER_IDLE;
 	if(player->entity.xv != 0 || player->entity.yv != 0){
-		player->anim = WALK;
+		player->anim = PLAYER_WALK;
 	}
 	if(player->entity.xv != 0 || player->entity.yv != 0){
-		player->anim = WALK;
+		player->anim = PLAYER_WALK;
 	}
 
 	player->entity.y += player->entity.yv;

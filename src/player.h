@@ -15,13 +15,12 @@
 #define PLAYER_ANIM_COUNT 2
 
 typedef enum {
-	IDLE,
-	WALK,
+	PLAYER_IDLE,
+	PLAYER_WALK,
 } Player_anim;
 
 typedef struct {
 	char* name;
-	Img sprite;
 	Anim anims[PLAYER_ANIM_COUNT][4];
 	Player_anim anim;
 	Facing facing;
